@@ -1,0 +1,197 @@
+Base de Datos - Trabajo Práctico 5
+
+Ejercicio 1
+
+
+//Inciso a
+
+
+Para eliminar todas las referencias al registro original, se debe agregar
+la accion "CASCADE" en la clausula "ON DELETE"
+Ya sea durante el Create Table, o mediante una constraint nueva en un alter table
+
+
+ALTER TABLE P5P1E1_CONTIENE ADD CONSTRAINT FK_P5P1E1_CONTIENE_ARTICULO
+    FOREIGN KEY (id_articulo)
+    REFERENCES P5P1E1_ARTICULO (id_articulo)  
+	ON DELETE CASCADE
+    NOT DEFERRABLE 
+    INITIALLY IMMEDIATE
+;
+
+
+En este caso, se le agrega la linea "ON DELETE CASCADE"
+
+
+
+
+//Inciso b
+
+Si para la clausula de bajas, definimos la acción referencial como
+ON DELETE RESTRICT
+
+Cuando borremos un registro de la tabla "PALABRA", si ese registro estaba
+siendo referenciado por un registro de la tabla "CONTIENE", arrojará un error,
+ya que se ha violado la constraint 'id_articulo'
+
+
+
+
+
+En este ejemplo, no seria posible colocar SET NULL o SET DEFAULT en las
+clausulas ON DELETE y ON UPDATE. Porque al hacer esto, cuando se intente 
+eliminar o actualizar los datos del registro, El DBMS intentaria buscar
+el valor por defecto para asignarle a todos los registros que sean referencias.
+
+Pero dicho valor por defecto no esta definido, por lo tanto, intentaria 
+colocar un NULL. Y como los campos del a tabla contiene no pueden ser nulos,
+esto arrojaría un error.
+
+
+
+
+Ejercicio 2
+
+
+delete from tp5_p1_ej2_proyecto where id_proyecto = 3;
+
+Esta consulta borra el proyecto con id 3 de forma satisfactoria.
+1 sola linea afectada (tabla proyecto)
+
+
+update tp5_p1_ej2_proyecto set id_proyecto = 7 where id_proyecto = 3;
+
+Cambia la id del proyecto con id 3. Pasa a ser id 7.
+1 sola linea afectada (tabla proyecto)     (Ya que no esta siendo referenciada)
+
+
+
+
+delete from tp5_p1_ej2_proyecto where id_proyecto = 1;
+
+Esta consulta arroja un error, ya que se ha violado la constraint
+"fk_tp5_p1_ej2_trabaja_en_proyecto"
+Ya que existen referencias al proyecto con id 1, 
+por ejemplo, en la tabla "trabaja_en"
+
+Esto se debe a que dicha foreign key tiene como accion ON DELETE RESTRICT
+
+
+
+
+delete from tp5_p1_ej2_empleado where tipo_empleado = ‘A’ and nro_empleado = 2;
+
+Esta linea borra al empleado "Maria" de la tabla de empleados, pero tambien
+se eliminan los registros de Maria en la tabla "Trabaja_En". Esto se debe
+a que dicha tabla tiene una foreign key asociada al empleado, y en su
+clausula ON DELETE, tiene la accion CASCADE, la cual borra todos los registros
+donde se haga referencia a dicho empleado.
+
+
+
+update tp5_p1_ej2_trabaja_en set id_proyecto = 3 where id_proyecto =1;
+
+En la tabla "Trabaja_En", cambia el id proyecto a 3, en todas las filas
+que tengan "1" como id_proyecto. En este caso, solo se ve alterada 1 fila.
+
+
+
+
+update tp5_p1_ej2_proyecto set id_proyecto = 5 where id_proyecto = 2;
+
+Esta consulta nos arroja un error, ya que se viola la constraint 
+'fk_tp5_p1_ej2_auspicio_proyecto'
+Esta foreign key esta presente en la tabla "Auspicio", y tiene la acción
+ON UPDATE RESTRICT.
+Entonces, como la id 2 esta siendo referenciada en la tabla auspicio, no 
+permite cambiar la original.
+
+
+
+
+
+
+
+Resultado de la operación: 
+	update auspicio set id_proyecto= 66, nro_empleado = 10
+	where id_proyecto = 22
+	and tipo_empleado = 'A'
+	and nro_empleado = 5;
+	
+	
+	
+	
+	
+La unica forma en la que esta consulta se pueda realizar, es que, ademas de 
+la tupla asociada, existan si o si un empleado con nro_empleado = 10, y tipo 'A'
+en la tabla Empleado, y que tambien exista un proyecto con id_proyecto = 66 en
+la tabla de proyecto.
+Caso contrario arrojará un error por violar las constraints de la tabla auspicio
+(Ambas constraints tienen ON UPDATE RESTRICT, por lo que deben existir registros
+a los cuales referenciar en caso de que se requiera cambiar los valores de
+los campos FK)
+	
+	
+	
+	
+	
+	
+	
+
+
+Inciso d
+
+
+En el caso de MATCH FULL:
+
+insert into Auspicio values (1, Dell , B, null); ----> RECHAZADA (nulls y no nulls)
+insert into Auspicio values (2, Oracle, null, null); --> ACEPTADA (ambos nulls)
+insert into Auspicio values (3, Google, A, 3); --->RECHAZADA (No hace match con el empleado A 3)
+insert into Auspicio values (1, HP, null, 3);-->RECHAZADA (nulls y no nulls)
+
+
+
+En el caso de MATCH PARTIAL:
+
+insert into Auspicio values (1, Dell , B, null); ---> ACEPTADA (1 es un id_proyecto valido, y B es un tipo_empleado valido)
+insert into Auspicio values (2, Oracle, null, null); ACEPTADA (El 2 hace match con el proyecto 2)
+insert into Auspicio values (3, Google, A, 3); ---> RECHAZADA (3 no es un nro_empleado valido y no es null)
+insert into Auspicio values (1, HP, null, 3); ---> RECHAZADA (3 no es un nro_empleado valido y no es null)
+
+En el caso de MATCH SIMPLE:
+
+insert into Auspicio values (1, Dell , B, null); -->ACEPTADA (Match y null)
+insert into Auspicio values (2, Oracle, null, null); -->ACEPTADA (ambos null)
+insert into Auspicio values (3, Google, A, 3); ---> RECHAZADA (No hace match con empleado A 3)
+insert into Auspicio values (1, HP, null, 3); ----> Aceptada (null y match)
+
+
+
+
+
+
+
+
+Ejercicio 3
+
+a) <----->
+
+b) No es posible colocar ON DELETE SET NULL ni ON UPDATE SET NULL, ya que
+los campos de la tabla ruta, no pueden ser null.
+
+
+
+
+
+
+
+
+
+
+
+
+RECORDAR:
+
+MATCH SIMPLE: Si existe un NULL, acepta.
+MATCH PARTIAL: Todos los campos NOT NULL deben ser referencias validas.
+MATCH FULL: Deben ser todos NULL, o la clave completa válida.

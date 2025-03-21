@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="SqlDialectMappings">
+    <file url="file://$PROJECT_DIR$/2024/Flor/ejemplos.sql" dialect="GenericSQL" />
+    <file url="file://$PROJECT_DIR$/2024/Parciales/ParcialPrefinal2023/Parcial_Santi2024.sql" dialect="PostgreSQL" />
+    <file url="file://$PROJECT_DIR$/2024/Parciales/Prefinal2024/Prefi2024.sql" dialect="PostgreSQL" />
+    <file url="file://$PROJECT_DIR$/2024/Parciales/Recuperatorio2024/RecuCucu.sql" dialect="PostgreSQL" />
+    <file url="file://$PROJECT_DIR$/2024/Practico3/Ej1.sql" dialect="PostgreSQL" />
+    <file url="file://$PROJECT_DIR$/2024/Practico4_2/peliculasEjercicios.sql" dialect="PostgreSQL" />
+    <file url="file://$PROJECT_DIR$/2024/Practico5/RepasoKAHOOTRIR.sql" dialect="PostgreSQL" />
+    <file url="file://$PROJECT_DIR$/2024/Practico5/Script.sql" dialect="GenericSQL" />
+    <file url="file://$PROJECT_DIR$/2024/Practico5_2/ej1.sql" dialect="PostgreSQL" />
+    <file url="file://$PROJECT_DIR$/2024/recuperatorio.sql" dialect="PostgreSQL" />
+  </component>
+</project>
