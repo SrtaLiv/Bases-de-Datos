@@ -1,0 +1,29 @@
+<DERExt>
+ <Entity y="294" x="87" strongEnt="Fabricante" name="Producto" weak="1" width="60">
+  <Simple type="integer" cant2="0" optionSQL="1" sk="0" cant1="20" pk="1" parent="" null="0" mult="0" name="cod_fabricante" cant3="2"/>
+  <Simple type="integer" cant2="0" optionSQL="1" sk="1" cant1="20" pk="0" parent="" null="0" mult="0" name="cod_almacen" cant3="2"/>
+  <Simple type="integer" cant2="0" optionSQL="1" sk="0" cant1="20" pk="0" parent="" null="0" mult="0" name="nombre" cant3="2"/>
+  <Simple type="integer" cant2="0" optionSQL="1" sk="0" cant1="20" pk="0" parent="" null="0" mult="0" name="precio" cant3="2"/>
+ </Entity>
+ <Entity y="-53" isAssociative="0" x="-396" subtype="0" name="Empleado" width="60">
+  <Simple type="integer" cant2="0" optionSQL="1" sk="0" cant1="20" pk="1" parent="" null="0" mult="0" name="num_empleado" cant3="2"/>
+  <Simple type="integer" cant2="0" optionSQL="1" sk="0" cant1="20" pk="0" parent="" null="0" mult="0" name="nombre" cant3="2"/>
+  <Simple type="integer" cant2="0" optionSQL="1" sk="0" cant1="20" pk="0" parent="" null="0" mult="0" name="apellido" cant3="2"/>
+  <Compound optionSQL="1" sk="0" pk="0" parent="" amount="4" null="0" mult="0" name="direccion">
+   <Simple type="integer" cant2="0" optionSQL="1" sk="0" cant1="20" pk="0" parent="direccion" null="1" mult="0" name="piso" cant3="2"/>
+   <Simple type="integer" cant2="0" optionSQL="1" sk="0" cant1="20" pk="0" parent="direccion" null="0" mult="0" name="calle" cant3="2"/>
+   <Simple type="integer" cant2="0" optionSQL="1" sk="0" cant1="20" pk="0" parent="direccion" null="1" mult="0" name="puerta" cant3="2"/>
+   <Simple type="integer" cant2="0" optionSQL="1" sk="0" cant1="20" pk="0" parent="direccion" null="0" mult="0" name="ciudad" cant3="2"/>
+  </Compound>
+  <Simple type="integer" cant2="0" optionSQL="1" sk="0" cant1="20" pk="0" parent="" null="1" mult="0" name="id_departamento" cant3="2"/>
+ </Entity>
+ <Entity y="305" isAssociative="0" x="-275" subtype="0" name="Fabricante" width="70">
+  <Simple type="integer" cant2="0" optionSQL="1" sk="0" cant1="20" pk="0" parent="" null="0" mult="0" name="id_fabricante" cant3="2"/>
+  <Simple type="integer" cant2="0" optionSQL="1" sk="0" cant1="20" pk="0" parent="" null="0" mult="0" name="nombre" cant3="2"/>
+  <Simple type="integer" cant2="0" optionSQL="1" sk="0" cant1="20" pk="0" parent="" null="0" mult="0" name="direccion" cant3="2"/>
+ </Entity>
+ <Entity y="170" isAssociative="0" x="-181" subtype="0" name="Jefe" width="40"/>
+ <Entity y="142" isAssociative="0" x="-72" subtype="0" name="NO_JEFE" width="55"/>
+ <Entity y="79" isAssociative="0" x="-17" subtype="1" name="JEFE" width="40"/>
+ <RBinary y="292" max0="1" dep="1" match1="simple" name0="Fabricante" x="-52" onDelete1="restrict" min0="1" rolename="" firstWeak="0" min1="1" onDelete0="restrict" onUpdate1="restrict" width="40" name="es de" match0="simple" onUpdate0="restrict" name1="Producto" max1="N"/>
+</DERExt>

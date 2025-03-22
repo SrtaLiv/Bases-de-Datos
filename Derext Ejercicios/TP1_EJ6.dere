@@ -1,0 +1,63 @@
+<DERExt>
+ <Entity x="49" isAssociative="0" width="55" y="-284" subtype="0" name="CLIENTE">
+  <Simple cant2="0" parent="" optionSQL="1" mult="0" sk="0" cant1="20" cant3="2" name="cod_cliente" null="0" type="integer" pk="1"/>
+  <Simple cant2="0" parent="" optionSQL="1" mult="0" sk="0" cant1="20" cant3="2" name="nombre_empresa" null="0" type="integer" pk="0"/>
+  <Simple cant2="0" parent="" optionSQL="1" mult="0" sk="0" cant1="20" cant3="2" name="contacto" null="0" type="integer" pk="0"/>
+  <Simple cant2="0" parent="" optionSQL="1" mult="0" sk="0" cant1="20" cant3="2" name="email" null="0" type="integer" pk="0"/>
+  <Simple cant2="0" parent="" optionSQL="1" mult="1" sk="0" cant1="20" cant3="2" name="telefono" null="0" type="integer" pk="0"/>
+ </Entity>
+ <Entity x="-433" isAssociative="0" width="95" y="120" subtype="1" name="EMPLEADO_SIMPLE"/>
+ <Entity x="-438" isAssociative="0" width="90" y="199" subtype="1" name="EMPLEADO_LIDER"/>
+ <Entity x="-546" isAssociative="0" width="60" y="-16" subtype="0" name="EMPLEADO">
+  <Simple cant2="0" parent="" optionSQL="1" mult="0" sk="0" cant1="20" cant3="2" name="dni" null="0" type="integer" pk="1"/>
+  <Simple cant2="0" parent="" optionSQL="1" mult="0" sk="0" cant1="20" cant3="2" name="nombre" null="0" type="integer" pk="0"/>
+  <Simple cant2="0" parent="" optionSQL="1" mult="0" sk="0" cant1="20" cant3="2" name="apellido" null="0" type="integer" pk="0"/>
+  <Simple cant2="0" parent="" optionSQL="1" mult="0" sk="0" cant1="20" cant3="2" name="cargo" null="0" type="integer" pk="0"/>
+  <Simple cant2="0" parent="" optionSQL="1" mult="0" sk="0" cant1="20" cant3="2" name="especialidad" null="0" type="integer" pk="0"/>
+  <Simple cant2="0" parent="" optionSQL="1" mult="0" sk="0" cant1="20" cant3="2" name="correo" null="0" type="integer" pk="0"/>
+ </Entity>
+ <Entity x="-538" isAssociative="0" width="50" y="-194" subtype="0" name="EQUIPO">
+  <Simple cant2="0" parent="" optionSQL="1" mult="0" sk="0" cant1="20" cant3="2" name="cod_equipo" null="0" type="integer" pk="1"/>
+  <Simple cant2="0" parent="" optionSQL="1" mult="0" sk="0" cant1="20" cant3="2" name="nombre" null="0" type="integer" pk="0"/>
+ </Entity>
+ <Entity x="-159" isAssociative="0" width="60" y="-42" subtype="0" name="PROYECTO">
+  <Simple cant2="0" parent="" optionSQL="1" mult="0" sk="0" cant1="20" cant3="2" name="cod_proyecto" null="0" type="integer" pk="1"/>
+  <Simple cant2="0" parent="" optionSQL="1" mult="0" sk="0" cant1="20" cant3="2" name="nombre" null="0" type="integer" pk="0"/>
+  <Simple cant2="0" parent="" optionSQL="1" mult="0" sk="0" cant1="20" cant3="2" name="descripcion" null="0" type="integer" pk="0"/>
+  <Compound parent="" optionSQL="1" mult="0" sk="0" amount="4" name="tipo" null="0" pk="0">
+   <Simple cant2="0" parent="tipo" optionSQL="1" mult="0" sk="0" cant1="20" cant3="2" name="software" null="0" type="integer" pk="0"/>
+   <Simple cant2="0" parent="tipo" optionSQL="1" mult="0" sk="0" cant1="20" cant3="2" name="hardware" null="0" type="integer" pk="0"/>
+   <Simple cant2="0" parent="tipo" optionSQL="1" mult="0" sk="0" cant1="20" cant3="2" name="consultoria" null="0" type="integer" pk="0"/>
+   <Simple cant2="0" parent="tipo" optionSQL="1" mult="0" sk="0" cant1="20" cant3="2" name="producto_digital" null="0" type="integer" pk="0"/>
+  </Compound>
+  <Simple cant2="0" parent="" optionSQL="1" mult="0" sk="0" cant1="20" cant3="2" name="fecha_inicio" null="0" type="integer" pk="0"/>
+  <Simple cant2="0" parent="" optionSQL="1" mult="0" sk="0" cant1="20" cant3="2" name="fecha_finalizacion" null="0" type="integer" pk="0"/>
+  <Compound parent="" optionSQL="1" mult="0" sk="0" amount="3" name="estado" null="0" pk="0">
+   <Simple cant2="0" parent="estado" optionSQL="1" mult="0" sk="0" cant1="20" cant3="2" name="en_desarrollo" null="0" type="integer" pk="0"/>
+   <Simple cant2="0" parent="estado" optionSQL="1" mult="0" sk="0" cant1="20" cant3="2" name="finalizado" null="0" type="integer" pk="0"/>
+   <Simple cant2="0" parent="estado" optionSQL="1" mult="0" sk="0" cant1="20" cant3="2" name="cancelado" null="0" type="integer" pk="0"/>
+  </Compound>
+  <Simple cant2="0" parent="" optionSQL="1" mult="0" sk="0" cant1="20" cant3="2" name="presupuesto" null="0" type="integer" pk="0"/>
+  <Simple cant2="0" parent="" optionSQL="1" mult="0" sk="0" cant1="20" cant3="2" name="es_contratado" null="0" type="integer" pk="0"/>
+ </Entity>
+ <Entity x="151" isAssociative="0" width="105" y="-54" subtype="1" name="PROYECTO EVALUADO">
+  <Simple cant2="0" parent="" optionSQL="1" mult="0" sk="0" cant1="20" cant3="2" name="fecha_evaluacion" null="0" type="integer" pk="0"/>
+  <Simple cant2="0" parent="" optionSQL="1" mult="0" sk="0" cant1="20" cant3="2" name="comentarios_tecnicos" null="0" type="integer" pk="0"/>
+  <Compound parent="" optionSQL="1" mult="0" sk="0" amount="3" name="resultado" null="0" pk="0">
+   <Simple cant2="0" parent="resultado" optionSQL="1" mult="0" sk="0" cant1="20" cant3="2" name="aprobado" null="0" type="integer" pk="0"/>
+   <Simple cant2="0" parent="resultado" optionSQL="1" mult="0" sk="0" cant1="20" cant3="2" name="en_revision" null="0" type="integer" pk="0"/>
+   <Simple cant2="0" parent="resultado" optionSQL="1" mult="0" sk="0" cant1="20" cant3="2" name="rechazado" null="0" type="integer" pk="0"/>
+  </Compound>
+ </Entity>
+ <RBinary max1="1" onDelete1="restrict" name1="PROYECTO" match1="simple" firstWeak="0" rolename="" max0="1" onDelete0="restrict" width="40" min1="1" onUpdate1="restrict" y="98" dep="0" x="-218" min0="1" name0="EMPLEADO_LIDER" onUpdate0="restrict" name="lidera" match0="simple"/>
+ <RBinary max1="N" onDelete1="restrict" name1="PROYECTO" match1="simple" firstWeak="0" rolename="" max0="N" onDelete0="restrict" width="40" min1="1" onUpdate1="restrict" y="53" dep="0" x="-275" min0="1" name0="EMPLEADO_SIMPLE" onUpdate0="restrict" name="tiene" match0="simple"/>
+ <Hierarchy total="true" exclusive="true" centerX="-523" name1="EMPLEADO_SIMPLE" typeName="tipo" cont="3" name0="EMPLEADO" centerY="79" name="Hierarchy EMPLEADO" name2="EMPLEADO_LIDER"/>
+ <RBinary max1="1" onDelete1="restrict" name1="CLIENTE" match1="simple" firstWeak="0" rolename="" max0="N" onDelete0="restrict" width="75" min1="1" onUpdate1="restrict" y="-186" dep="0" x="-44" min0="1" name0="PROYECTO" onUpdate0="restrict" name="es contratado" match0="simple"/>
+ <RBinary max1="1" onDelete1="restrict" name1="PROYECTO EVALUADO" match1="simple" firstWeak="0" rolename="" max0="1" onDelete0="restrict" width="40" min1="1" onUpdate1="restrict" y="-59" dep="0" x="44" min0="1" name0="PROYECTO" onUpdate0="restrict" name="pasa por" match0="simple"/>
+ <RBinary max1="N" onDelete1="restrict" name1="EMPLEADO" match1="simple" firstWeak="0" rolename="" max0="N" onDelete0="restrict" width="55" min1="1" onUpdate1="restrict" y="-79" dep="0" x="-512" min0="1" name0="EQUIPO" onUpdate0="restrict" name="compuesto" match0="simple"/>
+ <RBinary max1="1" onDelete1="restrict" name1="EQUIPO" match1="simple" firstWeak="0" rolename="" max0="1" onDelete0="restrict" width="70" min1="1" onUpdate1="restrict" y="-178" dep="0" x="-239" min0="1" name0="PROYECTO" onUpdate0="restrict" name="desarrollado" match0="simple">
+  <Simple cant2="0" parent="" optionSQL="1" mult="0" sk="0" cant1="20" cant3="2" name="monto_total" null="0" type="integer" pk="0"/>
+  <Simple cant2="0" parent="" optionSQL="1" mult="0" sk="0" cant1="20" cant3="2" name="fecha_inicio" null="0" type="integer" pk="0"/>
+ </RBinary>
+ <RBinary max1="N" onDelete1="restrict" name1="EMPLEADO" match1="simple" firstWeak="0" rolename="" max0="N" onDelete0="restrict" width="55" min1="1" onUpdate1="restrict" y="-29" dep="0" x="-306" min0="1" name0="PROYECTO" onUpdate0="restrict" name="participa" match0="simple"/>
+</DERExt>

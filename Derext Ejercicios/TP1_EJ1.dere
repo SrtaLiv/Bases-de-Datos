@@ -1,29 +1,32 @@
 <DERExt>
- <Entity isAssociative="0" y="57" width="60" subtype="0" name="Producto" x="-201">
-  <Simple type="integer" pk="1" parent="" cant2="0" null="0" optionSQL="1" cant3="2" name="id_producto" sk="0" mult="0" cant1="20"/>
-  <Simple type="integer" pk="0" parent="" cant2="0" null="0" optionSQL="1" cant3="2" name="descripcion" sk="0" mult="0" cant1="20"/>
-  <Simple type="integer" pk="0" parent="" cant2="0" null="0" optionSQL="1" cant3="2" name="precio_costo" sk="0" mult="0" cant1="20"/>
-  <Simple type="integer" pk="0" parent="" cant2="0" null="0" optionSQL="1" cant3="2" name="precio_venta" sk="0" mult="0" cant1="20"/>
+ <Entity y="-343" isAssociative="0" x="-84" subtype="0" name="Producto" width="60">
+  <Simple type="integer" cant2="0" optionSQL="1" sk="0" cant1="20" pk="1" parent="" null="0" mult="0" name="id_producto" cant3="2"/>
+  <Simple type="integer" cant2="0" optionSQL="1" sk="0" cant1="20" pk="0" parent="" null="0" mult="0" name="descripcion" cant3="2"/>
+  <Simple type="integer" cant2="0" optionSQL="1" sk="0" cant1="20" pk="0" parent="" null="0" mult="0" name="precio_costo" cant3="2"/>
+  <Simple type="integer" cant2="0" optionSQL="1" sk="0" cant1="20" pk="0" parent="" null="0" mult="0" name="precio_venta" cant3="2"/>
  </Entity>
- <Entity isAssociative="0" y="-121" width="55" subtype="0" name="Factura" x="-116">
-  <Compound pk="1" parent="" null="0" optionSQL="1" name="id_factura" amount="2" mult="0" sk="0">
-   <Simple type="integer" pk="0" parent="id_factura" cant2="0" null="0" optionSQL="1" cant3="2" name="tipo" sk="0" mult="0" cant1="20"/>
-   <Simple type="integer" pk="0" parent="id_factura" cant2="0" null="0" optionSQL="1" cant3="2" name="numero" sk="0" mult="0" cant1="20"/>
+ <Entity y="-180" isAssociative="0" x="-103" subtype="0" name="Factura" width="55">
+  <Compound optionSQL="1" sk="0" pk="1" parent="" amount="2" null="0" mult="0" name="id_factura">
+   <Simple type="integer" cant2="0" optionSQL="1" sk="0" cant1="20" pk="0" parent="id_factura" null="0" mult="0" name="tipo" cant3="2"/>
+   <Simple type="integer" cant2="0" optionSQL="1" sk="0" cant1="20" pk="0" parent="id_factura" null="0" mult="0" name="numero" cant3="2"/>
   </Compound>
-  <Simple type="integer" pk="0" parent="" cant2="0" null="0" optionSQL="1" cant3="2" name="fecha" sk="0" mult="0" cant1="20"/>
-  <Simple type="integer" pk="0" parent="" cant2="0" null="0" optionSQL="1" cant3="2" name="cliente" sk="0" mult="0" cant1="20"/>
-  <Simple type="integer" pk="0" parent="" cant2="0" null="0" optionSQL="1" cant3="2" name="importe_total" sk="0" mult="0" cant1="20"/>
+  <Simple type="integer" cant2="0" optionSQL="1" sk="0" cant1="20" pk="0" parent="" null="0" mult="0" name="fecha" cant3="2"/>
+  <Simple type="integer" cant2="0" optionSQL="1" sk="0" cant1="20" pk="0" parent="" null="0" mult="0" name="cliente" cant3="2"/>
+  <Simple type="integer" cant2="0" optionSQL="1" sk="0" cant1="20" pk="0" parent="" null="0" mult="0" name="importe_total" cant3="2"/>
  </Entity>
- <Entity isAssociative="0" y="-134" width="55" subtype="0" name="Cliente" x="-390">
-  <Simple type="integer" pk="1" parent="" cant2="0" null="0" optionSQL="1" cant3="2" name="id_cliente" sk="0" mult="0" cant1="20"/>
-  <Simple type="integer" pk="0" parent="" cant2="0" null="0" optionSQL="1" cant3="2" name="nombre" sk="0" mult="0" cant1="20"/>
-  <Simple type="integer" pk="0" parent="" cant2="0" null="0" optionSQL="1" cant3="2" name="apellido" sk="0" mult="0" cant1="20"/>
-  <Simple type="integer" pk="0" parent="" cant2="0" null="0" optionSQL="1" cant3="2" name="fecha_nac" sk="0" mult="0" cant1="20"/>
-  <Compound pk="0" parent="" null="0" optionSQL="1" name="direccion" amount="4" mult="0" sk="0">
-   <Simple type="integer" pk="0" parent="direccion" cant2="0" null="0" optionSQL="1" cant3="2" name="calle" sk="0" mult="0" cant1="20"/>
-   <Simple type="integer" pk="0" parent="direccion" cant2="0" null="0" optionSQL="1" cant3="2" name="puerta" sk="0" mult="0" cant1="20"/>
-   <Simple type="integer" pk="0" parent="direccion" cant2="0" null="1" optionSQL="1" cant3="2" name="piso" sk="0" mult="0" cant1="20"/>
-   <Simple type="integer" pk="0" parent="direccion" cant2="0" null="1" optionSQL="1" cant3="2" name="departamento" sk="0" mult="0" cant1="20"/>
+ <Entity y="-175" isAssociative="0" x="-379" subtype="0" name="Cliente" width="55">
+  <Simple type="integer" cant2="0" optionSQL="1" sk="0" cant1="20" pk="1" parent="" null="0" mult="0" name="id_cliente" cant3="2"/>
+  <Simple type="integer" cant2="0" optionSQL="1" sk="0" cant1="20" pk="0" parent="" null="0" mult="0" name="nombre" cant3="2"/>
+  <Simple type="integer" cant2="0" optionSQL="1" sk="0" cant1="20" pk="0" parent="" null="0" mult="0" name="apellido" cant3="2"/>
+  <Simple type="integer" cant2="0" optionSQL="1" sk="0" cant1="20" pk="0" parent="" null="0" mult="0" name="fecha_nac" cant3="2"/>
+  <Compound optionSQL="1" sk="0" pk="0" parent="" amount="4" null="0" mult="0" name="direccion">
+   <Simple type="integer" cant2="0" optionSQL="1" sk="0" cant1="20" pk="0" parent="direccion" null="0" mult="0" name="calle" cant3="2"/>
+   <Simple type="integer" cant2="0" optionSQL="1" sk="0" cant1="20" pk="0" parent="direccion" null="0" mult="0" name="puerta" cant3="2"/>
+   <Simple type="integer" cant2="0" optionSQL="1" sk="0" cant1="20" pk="0" parent="direccion" null="1" mult="0" name="piso" cant3="2"/>
+   <Simple type="integer" cant2="0" optionSQL="1" sk="0" cant1="20" pk="0" parent="direccion" null="1" mult="0" name="departamento" cant3="2"/>
   </Compound>
+  <Simple type="integer" cant2="0" optionSQL="1" sk="0" cant1="20" pk="0" parent="" null="0" mult="1" name="telefono" cant3="2"/>
  </Entity>
+ <RBinary y="-239" max0="N" dep="0" match1="simple" name0="Factura" x="-67" onDelete1="restrict" min0="1" rolename="" firstWeak="0" min1="1" onDelete0="restrict" onUpdate1="restrict" width="70" name="se encuentra" match0="simple" onUpdate0="restrict" name1="Producto" max1="N"/>
+ <RBinary y="-180" max0="1" dep="0" match1="simple" name0="Cliente" x="-183" onDelete1="restrict" min0="1" rolename="" firstWeak="0" min1="0" onDelete0="restrict" onUpdate1="restrict" width="40" name="guarda" match0="simple" onUpdate0="restrict" name1="Factura" max1="N"/>
 </DERExt>

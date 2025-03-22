@@ -1,0 +1,30 @@
+<DERExt>
+ <Entity y="-233" isAssociative="0" x="30" subtype="0" name="CUIDADOR" width="60">
+  <Simple type="integer" cant2="0" optionSQL="1" sk="0" cant1="20" pk="1" parent="" null="0" mult="0" name="id_cuidador" cant3="2"/>
+  <Simple type="integer" cant2="0" optionSQL="1" sk="0" cant1="20" pk="0" parent="" null="0" mult="0" name="ocupado" cant3="2"/>
+ </Entity>
+ <Entity y="-26" isAssociative="0" x="-9" subtype="0" name="INSTITUCION" width="75">
+  <Simple type="integer" cant2="0" optionSQL="1" sk="0" cant1="20" pk="1" parent="" null="0" mult="0" name="id_institucion" cant3="2"/>
+  <Simple type="integer" cant2="0" optionSQL="1" sk="0" cant1="20" pk="0" parent="" null="0" mult="0" name="pais" cant3="2"/>
+  <Simple type="integer" cant2="0" optionSQL="1" sk="0" cant1="20" pk="0" parent="" null="0" mult="0" name="region" cant3="2"/>
+  <Simple type="integer" cant2="0" optionSQL="1" sk="0" cant1="20" pk="0" parent="" null="0" mult="0" name="ciudad" cant3="2"/>
+ </Entity>
+ <Entity y="-91" isAssociative="0" x="-243" subtype="0" name="NI?O" width="40">
+  <Simple type="integer" cant2="0" optionSQL="1" sk="0" cant1="20" pk="1" parent="" null="0" mult="0" name="dni" cant3="2"/>
+  <Simple type="integer" cant2="0" optionSQL="1" sk="0" cant1="20" pk="0" parent="" null="0" mult="1" name="parientes" cant3="2"/>
+  <Simple type="integer" cant2="0" optionSQL="1" sk="0" cant1="20" pk="0" parent="" null="0" mult="1" name="datos_sanitarios" cant3="2"/>
+  <Compound optionSQL="1" sk="0" pk="0" parent="" amount="2" null="0" mult="0" name="nacimiento">
+   <Simple type="integer" cant2="0" optionSQL="1" sk="0" cant1="20" pk="0" parent="nacimiento" null="0" mult="0" name="fecha" cant3="2"/>
+   <Simple type="integer" cant2="0" optionSQL="1" sk="0" cant1="20" pk="0" parent="nacimiento" null="0" mult="0" name="lugar" cant3="2"/>
+  </Compound>
+  <Compound optionSQL="1" sk="0" pk="0" parent="" amount="4" null="0" mult="0" name="filatorio">
+   <Simple type="integer" cant2="0" optionSQL="1" sk="0" cant1="20" pk="0" parent="filatorio" null="0" mult="0" name="nombre_padre" cant3="2"/>
+   <Simple type="integer" cant2="0" optionSQL="1" sk="0" cant1="20" pk="0" parent="filatorio" null="0" mult="0" name="nombre_madre" cant3="2"/>
+   <Simple type="integer" cant2="0" optionSQL="1" sk="0" cant1="20" pk="0" parent="filatorio" null="0" mult="0" name="apellido_padre" cant3="2"/>
+   <Simple type="integer" cant2="0" optionSQL="1" sk="0" cant1="20" pk="0" parent="filatorio" null="0" mult="0" name="apellido_madre" cant3="2"/>
+  </Compound>
+  <Simple type="integer" cant2="0" optionSQL="1" sk="0" cant1="20" pk="0" parent="" null="1" mult="0" name="volvio" cant3="2"/>
+ </Entity>
+ <RBinary y="-103" max0="N" dep="0" match1="simple" name0="CUIDADOR" x="55" onDelete1="restrict" min0="1" rolename="" firstWeak="0" min1="1" onDelete0="restrict" onUpdate1="restrict" width="55" name="pertenece" match0="simple" onUpdate0="restrict" name1="INSTITUCION" max1="N"/>
+ <RBinary y="-162" max0="N" dep="0" match1="simple" name0="NI?O" x="-101" onDelete1="restrict" min0="1" rolename="" firstWeak="0" min1="1" onDelete0="restrict" onUpdate1="restrict" width="40" name="cuida" match0="simple" onUpdate0="restrict" name1="CUIDADOR" max1="N"/>
+</DERExt>
