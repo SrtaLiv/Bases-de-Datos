@@ -175,10 +175,10 @@ VALUES
 
 INSERT INTO tarea (id_tarea, nombre_tarea, min_horas, max_horas)
 VALUES
-('T001', 'Distribución de alimentos', 3, 8),
-('T002', 'Recolección de fondos', 4, 10),
-('T003', 'Asistencia en eventos', 2, 6),
-('T004', 'Ayuda en hospitales', 5, 12);
+(2, 'Distribución de alimentos', 3, 8),
+(3, 'Recolección de fondos', 4, 10),
+(4, 'Asistencia en eventos', 2, 6),
+(5, 'Ayuda en hospitales', 5, 12);
 
 INSERT INTO voluntario (nro_voluntario, nombre, apellido, e_mail, telefono, fecha_nacimiento, id_tarea, horas_aportadas, porcentaje, id_institucion, id_coordinador)
 VALUES
@@ -235,7 +235,73 @@ CHECK (
        )
 )
 
--- Las horas aportadas por los voluntarios deben estar dentro de los valores máximos y mínimos consignados en la tarea.
--- Todos los voluntarios deben realizar la misma tarea que su coordinador.
--- Los voluntarios no pueden cambiar de institución más de tres veces al año.
--- En el histórico, la fecha de inicio debe ser siempre menor que la fecha de finalización.
+-- C. Las horas aportadas por los voluntarios deben estar dentro de los valores máximos y mínimos consignados en la tarea.
+-- QUE NO EXISTAN VOLUNTARIOS SIN HORAS DENTRO DE LOS VALORES MAX Y MIN DE SUS TAREAS CONSIGNADAS
+CREATE ASSERTION voluntarios_dentro_horas
+CHECK(
+       NOT EXISTS(
+            SELECT 1
+            FROM unc_46203524.voluntario v
+            JOIN unc_46203524.tarea t
+            USING (id_tarea)
+            WHERE v.horas_aportadas
+            NOT BETWEEN t.min_horas AND t.max_horas
+       )
+)
+
+
+-- D. Todos los voluntarios deben realizar la misma tarea que su coordinador.
+-- Q NO EXISTAN VOLUNTARIOS CON TAREAS DIFERENTES A LA DE SU COORDINADOR
+CREATE ASSERTION voluntarios_tarea_coordinador(
+       CHECK(
+       NOT EXISTS(
+            SELECT 1
+            FROM unc_46203524.voluntario v
+            JOIN unc_46203524.voluntario c
+            ON v.nro_voluntario = c.id_coordinador
+            WHERE v.id_tarea <> c.id_tarea
+       )
+       )
+)
+
+
+
+-- e. Los voluntarios no pueden cambiar de institución más de tres veces al año.
+
+-- que no existan voluntarios que cambiaron de institucion menos de 3 veces al año
+CREATE ASSERTION voluntarios_cambio_max_3_anio
+CHECK (
+    NOT EXISTS (
+        SELECT 1
+        FROM (
+            SELECT
+              h.nro_voluntario,
+              EXTRACT(YEAR FROM h.fecha_inicio) AS anio,
+              COUNT(*) AS cambios
+            FROM unc_46203524.historico h
+            GROUP BY
+              h.nro_voluntario,
+              EXTRACT(YEAR FROM h.fecha_inicio)
+            HAVING
+              COUNT(*) > 3
+        ) sub
+    )
+);
+
+SELECT h.nro_voluntario, EXTRACT(YEAR FROM h.fecha_inicio) AS anio
+FROM historico h
+GROUP BY h.nro_voluntario,
+EXTRACT(YEAR FROM h.fecha_inicio)
+HAVING count(*) < 3;
+
+
+-- f. En el histórico, la fecha de inicio debe ser siempre menor que la fecha de finalización.
+-- LA FECHA DE INICIO NUNCA DEBE SER MAYOR QUE LA FECHA DE FINALIZACION (tupla)
+
+alter table historico
+ADD CONSTRAINT ck_inicio_menor_fin
+    CHECK ( historico.fecha_inicio < historico.fecha_fin );
+
+INSERT INTO historico VALUES ('2022-02-21', 1001, '2022-03-21', 2, 3);
+INSERT INTO historico VALUES ('2025-02-21', 1001, '2022-03-21', 2, 3);
+
