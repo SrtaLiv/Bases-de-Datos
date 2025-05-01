@@ -415,3 +415,52 @@ INSERT INTO renglon_entrega (nro_entrega, codigo_pelicula, cantidad) VALUES
 -- Considere las siguientes restricciones que debe definir sobre el esquema de la BD de Películas:
 -- A. Para cada tarea el sueldo máximo debe ser mayor que el sueldo mínimo.
 
+-- Created by Vertabelo (http://vertabelo.com)
+-- Last modification date: 2020-09-29 17:10:41.777
+
+-- tables
+-- Table: P5P2E3_ARTICULO
+CREATE TABLE P5P2E3_ARTICULO (
+    id_articulo int  NOT NULL,
+    titulo varchar(120)  NOT NULL,
+    autor varchar(30)  NOT NULL,
+    fecha_publicacion date  NOT NULL,
+    nacionalidad varchar(15)  NOT NULL,
+    CONSTRAINT AK_P5P1E1_ARTICULO UNIQUE (titulo) NOT DEFERRABLE  INITIALLY IMMEDIATE,
+    CONSTRAINT PK_P5P2E3_ARTICULO PRIMARY KEY (id_articulo)
+);
+
+-- Table: P5P2E3_CONTIENE
+CREATE TABLE P5P2E3_CONTIENE (
+    id_articulo int  NOT NULL,
+    idioma char(2)  NOT NULL,
+    cod_palabra int  NOT NULL,
+    CONSTRAINT PK_P5P2E3_CONTIENE PRIMARY KEY (id_articulo,idioma,cod_palabra)
+);
+
+-- Table: P5P2E3_PALABRA
+CREATE TABLE P5P2E3_PALABRA (
+    idioma char(2)  NOT NULL,
+    cod_palabra int  NOT NULL,
+    descripcion varchar(25)  NOT NULL,
+    CONSTRAINT PK_P5P2E3_PALABRA PRIMARY KEY (idioma,cod_palabra)
+);
+
+-- foreign keys
+-- Reference: FK_P5P2E3_CONTIENE_ARTICULO (table: P5P2E3_CONTIENE)
+ALTER TABLE P5P2E3_CONTIENE ADD CONSTRAINT FK_P5P2E3_CONTIENE_ARTICULO
+    FOREIGN KEY (id_articulo)
+    REFERENCES P5P2E3_ARTICULO (id_articulo)
+    NOT DEFERRABLE
+    INITIALLY IMMEDIATE
+;
+
+-- Reference: FK_P5P2E3_CONTIENE_PALABRA (table: P5P2E3_CONTIENE)
+ALTER TABLE P5P2E3_CONTIENE ADD CONSTRAINT FK_P5P2E3_CONTIENE_PALABRA
+    FOREIGN KEY (idioma, cod_palabra)
+    REFERENCES P5P2E3_PALABRA (idioma, cod_palabra)
+    NOT DEFERRABLE
+    INITIALLY IMMEDIATE
+;
+
+-- End of file.
