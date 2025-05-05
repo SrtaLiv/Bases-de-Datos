@@ -5,7 +5,13 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="09f9da0f-493c-45c1-aefc-aefae4bd52dd" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/EjerciciosDataGrip/whatsapp xpectro.sql" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources/44ac34b8-8bd6-4530-86e7-55b9c8d00ed7.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/44ac34b8-8bd6-4530-86e7-55b9c8d00ed7.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources/44ac34b8-8bd6-4530-86e7-55b9c8d00ed7/storage_v2/_src_/database/Tudai25.zkjhKA/schema/unc_46203524.GaSdlg.meta" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/44ac34b8-8bd6-4530-86e7-55b9c8d00ed7/storage_v2/_src_/database/Tudai25.zkjhKA/schema/unc_46203524.GaSdlg.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources/44ac34b8-8bd6-4530-86e7-55b9c8d00ed7/storage_v2/_src_/database/Tudai25.zkjhKA/schema/unc_46203524.GaSdlg.zip" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/44ac34b8-8bd6-4530-86e7-55b9c8d00ed7/storage_v2/_src_/database/Tudai25.zkjhKA/schema/unc_46203524.GaSdlg.zip" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/sqldialects.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/sqldialects.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/EjerciciosDataGrip/2025/TP5/TP5_EJ2_PARTE2.sql" beforeDir="false" afterPath="$PROJECT_DIR$/EjerciciosDataGrip/2025/TP5/TP5_EJ2_PARTE2.sql" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/EjerciciosDataGrip/2025/TP6/TP6_PARTE1.sql" beforeDir="false" afterPath="$PROJECT_DIR$/EjerciciosDataGrip/2025/TP6/TP6_PARTE1.sql" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />

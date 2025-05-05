@@ -207,7 +207,346 @@ INSERT INTO unc_46203524.p5p2e4_procesamiento VALUES (1, 1, 1, 5, 10);
 INSERT INTO unc_46203524.p5p2e4_procesamiento VALUES (1, 1, 1, 6, 10);
 
 -- C,
---
--- D
---
--- E;
+-- Agregue dos atributos de tipo fecha a las tablas Imagen_medica y
+-- Procesamiento, una
+-- indica la fecha de la imagen y la otra la fecha de procesamiento de la
+-- imagen y controle
+-- que la segunda no sea menor que la primera.
+ALTER TABLE P5P2E4_IMAGEN_MEDICA ADD COLUMN fecha_img date;
+ALTER TABLE P5P2E4_PROCESAMIENTO ADD COLUMN fecha_procesamiento_img date;
+
+-- que imagen de procesamiento no sea menor que fecha de imagen
+-- lo contrario: que la img_procesamiento sea mayor a fecha_img
+
+-- fecha_img = 04/04/2024
+-- fecha_proc_img =   04/03/2024 --> ERROR! la img de proc no debe ser menor a fecha img
+
+CREATE OR REPLACE FUNCTION fn_ctrl_fechas()
+RETURNS TRIGGER AS $$
+    -- declare fechaAux date;
+    BEGIN
+       -- SELECT m.fecha_img INTO fechaAux
+        -- FROM P5P2E4_IMAGEN_MEDICA m
+        -- WHERE id_imagen = new.id_imagen
+        -- AND id_paciente = new.id_paciente;
+
+        --IF fechaAux > new.fecha_procesamiento_img
+
+       -- OTRA FORMA:
+        IF new.fecha_procesamiento_img <
+            (SELECT m.fecha_img
+                FROM P5P2E4_IMAGEN_MEDICA m
+                WHERE id_imagen = new.id_imagen
+                AND id_paciente = new.id_paciente
+                )
+        THEN RAISE EXCEPTION 'La fecha ingresada de procesamiento %, no debe ser menor a la fecha de la imagen %', new.fecha_procesamiento_img;
+        end if;
+
+        RETURN new;
+    end;
+    $$;
+
+CREATE TRIGGER tr_max_procesamiento
+BEFORE INSERT OR UPDATE OF id_imagen, id_paciente, fecha_procesamiento_img
+ON unc_46203524.p5p2e4_procesamiento
+FOR EACH ROW EXECUTE PROCEDURE fn_ctrl_fechas();
+
+----------------------------------------------------------
+-- respuesta catedra
+CREATE OR REPLACE FUNCTION FN_FECHA_IMG_PROC()
+    RETURNS Trigger AS $$
+-- declare  fecha date;
+BEGIN
+    -- SELECT max(fecha_proc) into fecha
+--		 FROM p5p2e4_procesamiento p
+--		 WHERE NEW.id_paciente = p.id_paciente AND
+--             NEW.id_imagen = p.id_imagen
+--  IF ( NEW.fecha_img > fecha)
+
+    IF (NEW.fecha_img >
+        (SELECT max(fecha_procesamiento_img)
+         FROM p5p2e4_procesamiento p
+         WHERE NEW.id_paciente = p.id_paciente AND
+             NEW.id_imagen = p.id_imagen) ) THEN
+        RAISE EXCEPTION 'Fecha de procesamiento menor que el %; fecha de la imagen % del paciente %', NEW.fecha_img, NEW.id_imagen, NEW.id_paciente;
+    END IF;
+    RETURN NEW;
+END $$
+    LANGUAGE 'plpgsql';
+
+CREATE TRIGGER TR_FECHA_IMG_PROC
+    BEFORE UPDATE OF fecha_img
+    ON p5p2e4_imagen_medica
+    FOR EACH ROW EXECUTE PROCEDURE FN_FECHA_IMG_PROC();
+
+CREATE OR REPLACE FUNCTION FN_FECHA_PROC_IMG()
+    RETURNS Trigger AS $$
+BEGIN
+--    IF (NEW.fecha_proc > asi lo puso la catedra pero creo q esta mal
+IF (NEW.fecha_proc <
+        (SELECT fecha_img
+         FROM p5p2e4_imagen_medica i
+         WHERE NEW.id_paciente = i.id_paciente AND
+             NEW.id_imagen = i.id_imagen) ) THEN
+        RAISE EXCEPTION 'Fecha de la imagen % del paciente % es mayor que la de procesamiento %', NEW.id_imagen, NEW.id_paciente, NEW.fecha_proc;
+    END IF;
+    RETURN NEW;
+END $$
+    LANGUAGE 'plpgsql';
+
+CREATE TRIGGER TR_FECHA_PROC_IMG
+    BEFORE INSERT OR UPDATE OF fecha_proc, id_imagen, id_paciente
+    ON p5p2e4_procesamiento
+    FOR EACH ROW EXECUTE PROCEDURE FN_FECHA_PROC_IMG();
+
+
+
+-- D. Cada paciente sólo puede realizar dos FLUOROSCOPIA anuales.
+CREATE OR REPLACE FUNCTION  fn_max_fluoroscopia_anual()
+RETURNS TRIGGER AS $$
+    DECLARE cant int;
+    BEGIN
+            SELECT count(*) INTO cant
+            FROM P5P2E4_IMAGEN_MEDICA
+            WHERE id_paciente = new.id_paciente
+            AND modalidad = new.modalidad
+            AND EXTRACT(YEAR FROM fecha_img) = EXTRACT(YEAR FROM NEW.fecha_img)
+
+        IF new.modalidad = 'FLUOROSCOPIA' AND cant >= 2 THEN
+            RAISE EXCEPTION 'El paciente % ya tene 2 estudios el tipo % en el anio %',
+                id_paciente, modalidad, fecha_img;
+        END IF;
+
+        RAISE EXCEPTION 'El paciente no puede realizar 2 fluroscopia
+        anuales';
+    end;
+    $$
+LANGUAGE plpgsql;
+
+
+CREATE TRIGGER tr_max_fluoroscopia_anual
+BEFORE INSERT OR UPDATE OF modalidad, id_paciente
+ON P5P2E4_IMAGEN_MEDICA
+FOR EACH ROW EXECUTE PROCEDURE fn_max_fluoroscopia_anual();
+
+
+-- E; No se pueden aplicar algoritmos de costo computacional “O(n)” a imágenes de FLUOROSCOPIA
+-- TIPO - GENERAL
+
+-- SE APLICAN ALGORITMOS DE COSTO COMP A IMG FLUOROSCOPIA
+CREATE ASSERTION ck_fluoroscopia_algoritmos
+CHECK(
+       NOT EXISTS(
+            SELECT 1
+            FROM p5p2e4_algoritmo a
+            JOIN P5P2E4_PROCESAMIENTO p
+            USING (id_algoritmo)
+            JOIN p5p2e4_imagen_medica i
+            USING (id_paciente, id_imagen)
+            WHERE a.costo_computacional = 'O(n)'
+            AND i.modalidad = 'FLUOROSCOPIA'
+       )
+)
+
+SELECT 1
+FROM p5p2e4_algoritmo a
+         JOIN P5P2E4_PROCESAMIENTO p
+              USING (id_algoritmo)
+         JOIN p5p2e4_imagen_medica i
+              USING (id_paciente, id_imagen)
+WHERE a.nombre_metadata = 'O(n)'
+  AND i.modalidad = 'FLUOROSCOPIA'
+
+
+
+------------------------------------------------------------------------
+-- EJERCICIO 3
+
+-- Implemente de manera procedural las restricciones que no pudo realizar de manera declarativa en
+-- el ejercicio 5 del Práctico 5 Parte 2; cuyo script de creación del esquema se encuentra aquí.
+-- Ayuda: las restricciones que no se pudieron realizar de manera declarativa fueron B, C, D, E
+
+-- tables
+-- Table: P5P2E5_CLIENTE
+CREATE TABLE P5P2E5_CLIENTE (
+                                id_cliente int  NOT NULL,
+                                apellido varchar(80)  NOT NULL,
+                                nombre varchar(80)  NOT NULL,
+                                estado char(5)  NOT NULL,
+                                CONSTRAINT PK_P5P2E5_CLIENTE PRIMARY KEY (id_cliente)
+);
+
+-- Table: P5P2E5_FECHA_LIQ
+CREATE TABLE P5P2E5_FECHA_LIQ (
+                                  dia_liq int  NOT NULL,
+                                  mes_liq int  NOT NULL,
+                                  cant_dias int  NOT NULL,
+                                  CONSTRAINT PK_P5P2E5_FECHA_LIQ PRIMARY KEY (dia_liq,mes_liq)
+);
+
+-- Table: P5P2E5_PRENDA
+CREATE TABLE P5P2E5_PRENDA (
+                               id_prenda int  NOT NULL,
+                               precio decimal(10,2)  NOT NULL,
+                               descripcion varchar(120)  NOT NULL,
+                               tipo varchar(40)  NOT NULL,
+                               categoria varchar(80)  NOT NULL,
+                               CONSTRAINT PK_P5P2E5_PRENDA PRIMARY KEY (id_prenda)
+);
+
+-- Table: P5P2E5_VENTA
+CREATE TABLE P5P2E5_VENTA (
+                              id_venta int  NOT NULL,
+                              descuento decimal(10,2)  NOT NULL,
+                              fecha timestamp  NOT NULL,
+                              id_prenda int  NOT NULL,
+                              id_cliente int  NOT NULL,
+                              CONSTRAINT PK_P5P2E5_VENTA PRIMARY KEY (id_venta)
+);
+
+-- foreign keys
+-- Reference: FK_P5P2E5_VENTA_CLIENTE (table: P5P2E5_VENTA)
+ALTER TABLE P5P2E5_VENTA ADD CONSTRAINT FK_P5P2E5_VENTA_CLIENTE
+    FOREIGN KEY (id_cliente)
+        REFERENCES P5P2E5_CLIENTE (id_cliente)
+        NOT DEFERRABLE
+            INITIALLY IMMEDIATE
+;
+
+-- Reference: FK_P5P2E5_VENTA_PRENDA (table: P5P2E5_VENTA)
+ALTER TABLE P5P2E5_VENTA ADD CONSTRAINT FK_P5P2E5_VENTA_PRENDA
+    FOREIGN KEY (id_prenda)
+        REFERENCES P5P2E5_PRENDA (id_prenda)
+        NOT DEFERRABLE
+            INITIALLY IMMEDIATE
+;
+
+-- B. Los descuentos realizados en fechas de liquidación deben superar el 30%.
+-- if es fecha liq y dto es < 0.30 error
+CREATE OR REPLACE FUNCTION fn_dtos_liquidacion()
+RETURNS TRIGGER AS $$
+    -- DECLARE descu int;
+    declare es_fecha_liq boolean;
+BEGIN
+    -- Verificamos si la fecha de la venta coincide con una fecha de liquidación
+    SELECT EXISTS (
+        SELECT 1
+        FROM p5p2e5_fecha_liq
+        WHERE extract(DAY FROM NEW.fecha) = dia_liq
+        AND EXTRACT(MONTH FROM NEW.fecha) = mes_liq
+    ) INTO es_fecha_liq;
+
+    -- Si es fecha de liquidación y el descuento es menor o igual a 0.30, error
+    IF es_fecha_liq AND NEW.descuento <= 0.30 THEN
+        RAISE EXCEPTION 'El descuento en fecha de liquidación no puede ser menor o igual al 30%%';
+    END IF;
+    RETURN NEW;
+END;
+$$
+LANGUAGE plpgsql;
+
+-- INSERT AFECTA, UPDATE TAMBIEN, DELETE NO
+CREATE TRIGGER tr_dtos_liquidacion
+BEFORE INSERT OR UPDATE OF descuento, id_venta
+ON P5P2E5_VENTA
+FOR EACH ROW EXECUTE PROCEDURE fn_dtos_liquidacion();
+
+
+-- C. Las liquidaciones de Julio y Diciembre no deben superar los 5 días.
+CREATE OR REPLACE FUNCTION fn_cant_dias_liquidacion_por_mes()
+RETURNS TRIGGER AS $$
+    DECLARE max int;
+BEGIN
+        -- Solo actua si el mes_liq es JULIO o DICIEMBRE
+        IF NEW.mes_liq = 'JULIO' OR NEW.mes_liq = 'DICIEMBRE' THEN
+            SELECT COUNT(*)
+            INTO max
+            FROM p5p2e5_fecha_liq
+            WHERE mes_liq = NEW.mes_liq;
+
+            --if new.cant_dias >=5
+            IF max >= 5 THEN
+                RAISE EXCEPTION 'No se pueden registrar más de 5 días de liquidación para %', NEW.mes_liq;
+            END IF;
+    end if;
+END;
+$$
+LANGUAGE plpgsql;
+
+CREATE TRIGGER tr_cant_dias_liquidacion_por_mes
+BEFORE INSERT OR UPDATE OF dia_liq, mes_liq ON P5P2E5_FECHA_LIQ
+when new.mes_liq = julio ahi se ahorra
+
+FOR EACH ROW EXECUTE PROCEDURE fn_cant_dias_liquidacion_por_mes();
+
+-- D. Las prendas de categoría ‘oferta’ no tienen descuentos.
+CREATE OR REPLACE FUNCTION  fn_oferta_sin_descuento()
+CREATE OR REPLACE FUNCTION fn_oferta_sin_descuento()
+    RETURNS TRIGGER AS $$
+DECLARE
+    cat TEXT;
+BEGIN
+    SELECT categoria INTO cat
+    FROM p5p2e5_prenda
+    WHERE id_prenda = NEW.id_prenda;
+
+    IF cat = 'Oferta' THEN
+        RAISE EXCEPTION 'LAS PRENDAS EN OFERTA NO TIENEN DESCUENTO';
+    END IF;
+
+    RETURN NEW;
+END;
+$$ LANGUAGE plpgsql;
+
+CREATE TRIGGER tr_oferta_sin_descuento
+BEFORE INSERT OR UPDATE OF id_venta, descuento ON P5P2E5_VENTA
+FOR EACH ROW
+WHEN ( NEW.descuento > 0 )
+EXECUTE PROCEDURE  fn_oferta_sin_descuento();
+
+--CREATE ASSERTION
+--SELECT 1
+--FROM prenda p
+ --        JOIN venta v ON (p.id_prenda = v.id_prenda)
+--WHERE p.categoria = 'OFERTA'
+-- AND v.descuento > 0;
+
+-- EJERCICIO 4
+CREATE TABLE Pelicula AS
+SELECT * FROM unc_esq_peliculas.pelicula;
+
+CREATE TABLE estadistica AS
+SELECT genero, COUNT(*) total_peliculas, count (distinct idioma) cantidad_idiomas
+FROM Pelicula GROUP BY genero;
+
+-- c) Cree un trigger que cada vez que se realice una modificación en la tabla película (la creada
+-- en su esquema) tiene que actualizar la tabla estadística.No se olvide de identificar:
+-- i) la granularidad del trigger.
+-- ii) Eventos ante los cuales se debe disparar.
+-- iii) Analice si conviene modificar por cada operación de actualización o reconstruirla de
+-- cero.
+
+CREATE OR REPLACE FUNCTION fn_actualizar_estadisticas()
+    RETURNS TRIGGER AS $$
+BEGIN
+    -- Limpiar tabla estadística
+    DELETE FROM estadistica;
+
+    -- Volver a cargar los datos actualizados
+    INSERT INTO estadistica (genero, total_peliculas, cantidad_idiomas)
+    SELECT genero, COUNT(*) AS total_peliculas, COUNT(DISTINCT idioma) AS cantidad_idiomas
+    FROM pelicula
+    GROUP BY genero;
+
+    RETURN NULL; -- Porque es AFTER STATEMENT
+END;
+$$ LANGUAGE plpgsql;
+
+-- Crear el trigger para los tres eventos
+CREATE TRIGGER tr_actualizar_estadisticas
+    AFTER INSERT OR UPDATE OR DELETE ON pelicula
+    FOR EACH STATEMENT
+EXECUTE FUNCTION fn_actualizar_estadisticas();
+
+-- Es más fácil y seguro reconstruirla desde cero cada vez, porque si borrás una película,
+-- actualizar una fila específica en estadística sería más complejo.
