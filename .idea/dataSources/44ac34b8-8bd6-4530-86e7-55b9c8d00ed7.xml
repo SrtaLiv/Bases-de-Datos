@@ -16,7 +16,7 @@
 332604||17986|C|G
 332604||10|T|G
 332604||17986|T|G</Grants>
-      <IntrospectionStateNumber>236121</IntrospectionStateNumber>
+      <IntrospectionStateNumber>236149</IntrospectionStateNumber>
       <ServerVersion>17.4</ServerVersion>
       <StartupTime>1745940897</StartupTime>
       <TimeZones>true ACDT
@@ -879,7 +879,7 @@ true posixrules
 335464||10|C|G
 335464||-9223372036854775808|U|G
 335464||10|U|G</Grants>
-      <IntrospectionStateNumber>236121</IntrospectionStateNumber>
+      <IntrospectionStateNumber>236149</IntrospectionStateNumber>
       <ObjectId>332061</ObjectId>
       <OwnerName>postgres</OwnerName>
     </database>
@@ -21447,8 +21447,8 @@ true posixrules
     <schema id="2581" parent="12" name="unc_46203524">
       <Comment>Todesco, Ana Olivia</Comment>
       <Current>1</Current>
-      <IntrospectionStateNumber>236121</IntrospectionStateNumber>
-      <LastIntrospectionLocalTimestamp>2025-05-05.17:35:56</LastIntrospectionLocalTimestamp>
+      <IntrospectionStateNumber>236149</IntrospectionStateNumber>
+      <LastIntrospectionLocalTimestamp>2025-05-05.17:54:31</LastIntrospectionLocalTimestamp>
       <ObjectId>334321</ObjectId>
       <StateNumber>187974</StateNumber>
       <OwnerName>unc_46203524</OwnerName>
@@ -21759,7 +21759,17 @@ true posixrules
       <StateNumber>188477</StateNumber>
       <OwnerName>unc_vferraggine</OwnerName>
     </schema>
-    <routine id="2633" parent="2581" name="fn_max_autores">
+    <routine id="2633" parent="2581" name="fn_actualizar_estadisticas">
+      <ObjectId>935363</ObjectId>
+      <PgRoutineKind>pg-trigger</PgRoutineKind>
+      <ResultsDefinition>trigger</ResultsDefinition>
+      <Rows>0.0</Rows>
+      <SourceTextLength>370</SourceTextLength>
+      <StateNumber>236129</StateNumber>
+      <LanguageName>plpgsql</LanguageName>
+      <OwnerName>unc_46203524</OwnerName>
+    </routine>
+    <routine id="2634" parent="2581" name="fn_max_autores">
       <ObjectId>813175</ObjectId>
       <PgRoutineKind>pg-trigger</PgRoutineKind>
       <ResultsDefinition>trigger</ResultsDefinition>
@@ -21769,7 +21779,7 @@ true posixrules
       <LanguageName>plpgsql</LanguageName>
       <OwnerName>unc_46203524</OwnerName>
     </routine>
-    <routine id="2634" parent="2581" name="fn_max_procesamiento">
+    <routine id="2635" parent="2581" name="fn_max_procesamiento">
       <ObjectId>820676</ObjectId>
       <PgRoutineKind>pg-trigger</PgRoutineKind>
       <ResultsDefinition>trigger</ResultsDefinition>
@@ -21779,75 +21789,79 @@ true posixrules
       <LanguageName>plpgsql</LanguageName>
       <OwnerName>unc_46203524</OwnerName>
     </routine>
-    <table id="2635" parent="2581" name="estadistica">
+    <table id="2636" parent="2581" name="estadistica">
       <ObjectId>935298</ObjectId>
       <StateNumber>236100</StateNumber>
       <AccessMethodId>2</AccessMethodId>
       <OwnerName>unc_46203524</OwnerName>
     </table>
-    <table id="2636" parent="2581" name="pelicula">
+    <table id="2637" parent="2581" name="pelicula">
       <ObjectId>935264</ObjectId>
       <StateNumber>236080</StateNumber>
       <AccessMethodId>2</AccessMethodId>
       <OwnerName>unc_46203524</OwnerName>
     </table>
-    <argument id="2637" parent="2633">
+    <argument id="2638" parent="2633">
       <ArgumentDirection>R</ArgumentDirection>
       <StoredType>trigger|0s</StoredType>
     </argument>
-    <argument id="2638" parent="2634">
+    <argument id="2639" parent="2634">
       <ArgumentDirection>R</ArgumentDirection>
       <StoredType>trigger|0s</StoredType>
     </argument>
-    <column id="2639" parent="2635" name="genero">
+    <argument id="2640" parent="2635">
+      <ArgumentDirection>R</ArgumentDirection>
+      <StoredType>trigger|0s</StoredType>
+    </argument>
+    <column id="2641" parent="2636" name="genero">
       <Position>1</Position>
       <StateNumber>236100</StateNumber>
       <StoredType>varchar(30)|0s</StoredType>
       <TypeId>1043</TypeId>
     </column>
-    <column id="2640" parent="2635" name="total_peliculas">
+    <column id="2642" parent="2636" name="total_peliculas">
       <Position>2</Position>
       <StateNumber>236100</StateNumber>
       <StoredType>bigint|0s</StoredType>
       <TypeId>20</TypeId>
     </column>
-    <column id="2641" parent="2635" name="cantidad_idiomas">
+    <column id="2643" parent="2636" name="cantidad_idiomas">
       <Position>3</Position>
       <StateNumber>236100</StateNumber>
       <StoredType>bigint|0s</StoredType>
       <TypeId>20</TypeId>
     </column>
-    <column id="2642" parent="2636" name="codigo_pelicula">
+    <column id="2644" parent="2637" name="codigo_pelicula">
       <Position>1</Position>
       <StateNumber>236080</StateNumber>
       <StoredType>numeric(5)|0s</StoredType>
       <TypeId>1700</TypeId>
     </column>
-    <column id="2643" parent="2636" name="titulo">
+    <column id="2645" parent="2637" name="titulo">
       <Position>2</Position>
       <StateNumber>236080</StateNumber>
       <StoredType>varchar(60)|0s</StoredType>
       <TypeId>1043</TypeId>
     </column>
-    <column id="2644" parent="2636" name="idioma">
+    <column id="2646" parent="2637" name="idioma">
       <Position>3</Position>
       <StateNumber>236080</StateNumber>
       <StoredType>varchar(20)|0s</StoredType>
       <TypeId>1043</TypeId>
     </column>
-    <column id="2645" parent="2636" name="formato">
+    <column id="2647" parent="2637" name="formato">
       <Position>4</Position>
       <StateNumber>236080</StateNumber>
       <StoredType>varchar(20)|0s</StoredType>
       <TypeId>1043</TypeId>
     </column>
-    <column id="2646" parent="2636" name="genero">
+    <column id="2648" parent="2637" name="genero">
       <Position>5</Position>
       <StateNumber>236080</StateNumber>
       <StoredType>varchar(30)|0s</StoredType>
       <TypeId>1043</TypeId>
     </column>
-    <column id="2647" parent="2636" name="codigo_productora">
+    <column id="2649" parent="2637" name="codigo_productora">
       <Position>6</Position>
       <StateNumber>236080</StateNumber>
       <StoredType>varchar(6)|0s</StoredType>
