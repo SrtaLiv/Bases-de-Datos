@@ -277,31 +277,112 @@ FROM unc_46203524.empleado e
 WHERE sueldo > 2000
 WITH LOCAL CHECK OPTION ;
 
-CREATE VIEW empleado_dist AS
+CREATE  OR REPLACE VIEW empleado_dist AS
 SELECT * FROM empleado
-WHERE id_distribuidor = 20
-WITH LOCAL CHECK OPTION;
+WHERE id_distribuidor = 20;
 
-CREATE VIEW empleado_dist_20_70 AS
+CREATE OR REPLACE VIEW empleado_dist_20_70 AS
 SELECT * FROM empleado_dist
 WHERE EXTRACT(YEAR FROM fecha_nacimiento) BETWEEN 1970 AND 1979
 WITH LOCAL CHECK OPTION;
 
 INSERT INTO empleado_dist_20_70
 (nombre, apellido, sueldo, fecha_nacimiento, id_empleado, id_distribuidor)
-VALUES ('Local', 'Test', 4500, '1939-01-01', 222223, 20);
--- FALLA POR LA FECHA
+VALUES ('Local', 'Test', 4500, '1979-01-01', 222223, 21);
+-- PASA
 
-INSERT INTO empleado_dist_20_70
-(nombre, apellido, sueldo, fecha_nacimiento, id_empleado, id_distribuidor)
-VALUES ('Local', 'Test', 4500, '1978-01-01', 222223, 20);
--- SE INSERTA
-
-INSERT INTO empleado_dist_20_70
-(nombre, apellido, sueldo, fecha_nacimiento, id_empleado, id_distribuidor)
-VALUES ('Local', 'Test', 4500,
-        '1976-01-01', 222223, 21);
--- NO INSERTA,
 
 -- YA ENTENDI! PUSE LOCAL CHECK OPTION EN EL PADRE, SI SE LO SACO AHI SI ME DEJARIA INSERTAR
--- CON ID DISTRIBUIDOR 21!! :D
+-- CON ID DISTRIBUIDOR 21!! :D (ANTEs)
+
+
+------------------------------------------------------------------------------------------------------------
+-- EJERCICIO 4
+------------------------------------------------------------------------------------------------------------
+
+
+-- Created by Vertabelo (http://vertabelo.com)
+-- Last modification date: 2020-09-23 21:41:16.165
+
+-- tables
+-- Table: P5P1E1_ARTICULO
+CREATE TABLE P5P1E1_ARTICULO (
+    id_articulo int  NOT NULL,
+    titulo varchar(120)  NOT NULL,
+    autor varchar(30)  NOT NULL,
+    CONSTRAINT P5P1E1_ARTICULO_pk PRIMARY KEY (id_articulo)
+);
+
+-- Table: P5P1E1_CONTIENE
+CREATE TABLE P5P1E1_CONTIENE (
+    id_articulo int  NOT NULL,
+    idioma char(2)  NOT NULL,
+    cod_palabra int  NOT NULL,
+    CONSTRAINT P5P1E1_CONTIENE_pk PRIMARY KEY (id_articulo,idioma,cod_palabra)
+);
+
+-- Table: P5P1E1_PALABRA
+CREATE TABLE P5P1E1_PALABRA (
+    idioma char(2)  NOT NULL,
+    cod_palabra int  NOT NULL,
+    descripcion varchar(25)  NOT NULL,
+    CONSTRAINT P5P1E1_PALABRA_pk PRIMARY KEY (idioma,cod_palabra)
+);
+
+-- foreign keys
+-- Reference: FK_P5P1E1_CONTIENE_ARTICULO (table: P5P1E1_CONTIENE)
+ALTER TABLE P5P1E1_CONTIENE ADD CONSTRAINT FK_P5P1E1_CONTIENE_ARTICULO
+    FOREIGN KEY (id_articulo)
+    REFERENCES P5P1E1_ARTICULO (id_articulo)
+    NOT DEFERRABLE
+    INITIALLY IMMEDIATE
+;
+
+-- Reference: FK_P5P1E1_CONTIENE_PALABRA (table: P5P1E1_CONTIENE)
+ALTER TABLE P5P1E1_CONTIENE ADD CONSTRAINT FK_P5P1E1_CONTIENE_PALABRA
+    FOREIGN KEY (idioma, cod_palabra)
+    REFERENCES P5P1E1_PALABRA (idioma, cod_palabra)
+    NOT DEFERRABLE
+    INITIALLY IMMEDIATE
+;
+
+-- End of file.
+
+-- Transformar en actualizables para PostgreSQL las siguientes vistas:
+
+CREATE VIEW V1
+AS SELECT
+FROM unc_46203524.p5p1e1_articulo
+WHERE EXTRACT(year from fecha_publicacion) > 2015;
+-- esta vista no es actualizable ya que para que lo sea debe haber una unica tabla en el from, y tampoco puede haber
+-- un JOIN
+
+-- OPCION 2 CON TRIGGER
+CREATE OR REPLACE VIEW V1_TRIGGER AS
+SELECT a.id_articulo, a.titulo, a.autor, c.idioma, c.cod_palabra
+FROM P5P1E1_ARTICULO a
+JOIN P5P1E1_CONTIENE c ON a.id_articulo = c.id_articulo;
+
+CREATE OR REPLACE FUNCTION actualizar_v1()
+RETURNS TRIGGER AS $$
+BEGIN
+     UPDATE P5P1E1_ARTICULO
+    SET titulo = NEW.titulo, autor = NEW.autor
+    WHERE id_articulo = NEW.id_articulo;
+
+    RETURN NEW;
+end;
+    $$
+LANGUAGE plpgsql;
+
+CREATE TRIGGER v1_update
+INSTEAD OF UPDATE ON V1
+FOR EACH ROW
+EXECUTE FUNCTION actualizar_v1();
+
+CREATE VIEW V2
+AS SELECT
+FROM p5p2e3_articulo JOIN p5p2e3_contiene
+WHERE idioma, cod_palabra IN (SELECT idioma, cod_palabra
+FROM p5p2e3_palabra
+WHERE lower(descripcion) like ‘%bases de datos%’)
