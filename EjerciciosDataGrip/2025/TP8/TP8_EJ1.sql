@@ -80,5 +80,3 @@ WHERE H.fecha_fin < to_date('1998-07-24', 'yyyy-mm-dd')
 
 -- Planning Time: 0.385 ms
 -- Execution Time: 0.438 ms
-<
->
