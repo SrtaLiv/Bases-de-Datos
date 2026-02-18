@@ -108,8 +108,11 @@ CREATE ASSERTION ck_atienden_medicos(
         atiende a
         JOIN CENTRO_SALUD c on a.cod_centro = c.cod_centro
         WHERE sala_atencion = true
-        GROUP BY tipo_especialidad, cod_especialidad, a.cod_centro
-        HAVING COUNT(*) > 2;
+        GROUP BY tipo_especialidad, cod_especialidad,  -- Para cada especialidad (tipo_especialidad, cod_especialidad),
+       a.cod_centro     -- En cada sala de atención (a.cod_centro),
+        HAVING COUNT(*) > 2; --¿Hay más de 2 médicos asignados?
+
+       -- si agrupara por nro_matricula, me daria grupos por cada medico individual, nunca superaria 2
        )
     )
 )

@@ -8,5 +8,22 @@
       <jdbc-url>jdbc:postgresql://dbases.exa.unicen.edu.ar:6432/Tudai25</jdbc-url>
       <working-dir>$ProjectFileDir$</working-dir>
     </data-source>
+    <data-source source="LOCAL" name="postgres@pi.nsd.ar" uuid="8e4cd8a1-40af-44d8-9e66-f6f0908be470">
+      <driver-ref>postgresql</driver-ref>
+      <synchronize>true</synchronize>
+      <jdbc-driver>org.postgresql.Driver</jdbc-driver>
+      <jdbc-url>jdbc:postgresql://pi.nsd.ar:5432/postgres</jdbc-url>
+      <working-dir>$ProjectFileDir$</working-dir>
+    </data-source>
+    <data-source source="LOCAL" name="fqgkuxuy_laboriosos2@66.225.221.50" uuid="1bc6d2b6-f329-461a-bca5-be87d4db842c">
+      <driver-ref>mysql_aurora.aws_wrapper</driver-ref>
+      <synchronize>true</synchronize>
+      <jdbc-driver>software.amazon.jdbc.Driver</jdbc-driver>
+      <jdbc-url>jdbc:aws-wrapper:mysql://66.225.221.50:3306/fqgkuxuy_laboriosos2</jdbc-url>
+      <jdbc-additional-properties>
+        <property name="database.introspection.mysql.dbe5060" value="true" />
+      </jdbc-additional-properties>
+      <working-dir>$ProjectFileDir$</working-dir>
+    </data-source>
   </component>
 </project>
