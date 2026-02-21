@@ -376,3 +376,88 @@ FROM IMAGENES_CAPTURADAS
     )
 
 --perfect!, lo unico a tener en cuenta es que los using solo sirven cuando los atributos tienen el mismo nombre en todas las tablas
+
+------------------------------------------------------------------------------------------------------------------------
+
+--5b)  En caso de que sea posible plantee de manera procedural lo requerido en el punto 5.a
+
+CREATE OR REPLACE FUNCTION fn_impedir_agregar_satelite_activo_con_imagen()
+RETURNS TRIGGER AS $$
+declare cant int;
+    BEGIN
+    IF NEW.estado = 'A' THEN
+
+        SELECT count(*) into cant -- o podria ser if exist una imagen capturada tirar exception
+        FROM SATELITE
+        JOIN SENSOR USING (id_satelite)
+        JOIN IMAGENES_CAPTURADAS
+        USING (id_sensor)
+        WHERE new.id_satelite = SATELITE.id_satelite;
+    end if;
+
+    IF cant > 0 THEN
+        RAISE EXCEPTION
+            'No se puede activar el satélite porque tiene imágenes capturadas';
+    END IF;
+
+    RETURN NEW;
+
+end;
+$$
+LANGUAGE plpgsql;
+
+CREATE TRIGGER tr_impedir_agregar_satelite_activo_con_imagen
+    BEFORE UPDATE OF estado ON SATELITE
+    FOR EACH ROW EXECUTE FUNCTION fn_impedir_agregar_satelite_activo_con_imagen();
+
+----
+-- ESTE QUE HICE RECIEN ESTA MAL, POR QUE?
+-- PORQUE PODEMOS VERIFICAR SIN LA TABLA IMAGEN CAPTURA AL SELECCIONAR, USAMOS SOLO EL ID_SENSOR,
+-- COMPARAMOS EL ID_SENSOR QUE QUIEREN AGREGAR EN IMAGENES CAPTURADAS CON EL DE LA TABLA, Y ASI
+--EVITAMOS 2 JOINS
+CREATE OR REPLACE FUNCTION fn_impedir_agregar_imagen_con_satelite_activo()
+    RETURNS TRIGGER AS $$
+BEGIN
+    IF EXISTS (
+        SELECT 1
+        FROM IMAGENES_CAPTURADAS
+                 JOIN SENSOR USING (id_sensor)
+                 JOIN SATELITE USING (id_satelite)
+        WHERE upper(SATELITE.estado) LIKE 'A'
+          AND NEW.id_imagen = IMAGENES_CAPTURADAS.id_imagen;
+    ) THEN RAISE EXCEPTION
+            'No se puede agregar una imagen capturada de un satélite con estado activo';
+    END IF;
+
+    RETURN NEW;
+end;
+$$
+    LANGUAGE plpgsql;
+
+CREATE TRIGGER tr_impedir_imagen_con_satelite_activo
+    BEFORE INSERT OR UPDATE ON IMAGENES_CAPTURADAS
+    FOR EACH ROW EXECUTE FUNCTION fn_impedir_agregar_imagen_con_satelite_activo();
+
+-- CORRECCION
+CREATE OR REPLACE FUNCTION fn_impedir_agregar_imagen_con_satelite_activo()
+    RETURNS TRIGGER AS $$
+BEGIN
+    IF EXISTS (
+        SELECT 1
+        FROM SENSOR
+        JOIN SATELITE
+        USING (id_satelite)
+        WHERE SENSOR.id_sensor = new.id_sensor
+        AND SATELITE.estado = 'A'
+    ) THEN RAISE EXCEPTION
+        'No se puede agregar una imagen capturada de un satélite con estado activo';
+END IF;
+
+    RETURN NEW;
+end;
+$$
+    LANGUAGE plpgsql;
+
+CREATE TRIGGER tr_impedir_imagen_con_satelite_activo
+    BEFORE INSERT OR UPDATE OF id_sensor ON IMAGENES_CAPTURADAS
+    FOR EACH ROW EXECUTE FUNCTION fn_impedir_agregar_imagen_con_satelite_activo();
