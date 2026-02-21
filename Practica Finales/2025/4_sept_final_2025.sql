@@ -201,3 +201,178 @@ CREATE ASSERTION CHECK(
        )
 )
 
+-- 2a) Sobre el esquema dado se requiere definir la siguiente vista, de manera que resulte automáticamente
+-- actualizable en PostgreSQL, siempre que sea posible:
+
+       -- V1: que contenga todos los datos de los satélites que aún no
+       -- han hecho contacto con ninguna estación terrena
+
+
+CREATE V1 VIEW AS
+SELECT * FROM SATELITE s
+WHERE s.id_satelite NOT IN (
+    SELECT 1
+    FROM CONTACTO_ESTACION c
+    WHERE s.id_satelite = c.id_satelite
+    AND tipo_contacto = 'E'
+    );
+
+-- Esta mal, porque la tabla contacto_estacion ya es la intermedia entre estacion terrena y satelite
+-- asi que solo con controlar que no haya nada de contacto estaicon satelite esta bien
+-- para que sea actualizable solo debe tener 1 tabla, no deben haber joins
+-- Si no existe → significa que no tuvo contacto con ninguna estación
+-- No usar GROUP BY, DISTINCT, agregaciones, etc.
+
+------------------------------------------------------------------------------------------------------------------------
+
+--  2b) Considerando la siguiente definición para V1, seleccione la/s afirmación/es que considere correcta/s
+-- respecto de esta vista y justifíquela/s claramente.
+
+CREATE VIEW V1 AS
+SELECT * FROM SATELITE s
+WHERE NOT EXISTS (SELECT 1 FROM TIPO_SATELITE t WHERE s.id_tipo = t.id_tipo AND upper(descripcion) like
+                                                                                '%RECONOCIMIENTO%')
+-- a. Ninguna de las opciones es correcta
+-- b. No es posible reformular la consulta para  seleccionar todos los satélites que son del tipo reconocimiento
+-- (y sea automáticamente actualizable)
+-- c. No resulta automáticamente actualizable en PostgreSQL
+-- d. Contiene todos los datos de los satélites de reconocimiento
+-- e. Es automáticamente actualizable en PostgreSQL -- CORRECTO
+-- f. Para seleccionar todos los satélites que son del tipo reconocimiento hay que reformular la consulta cmbiendo el NOT EXISTS por EXISTS -- CORRECTO
+-- g. No está correctamente correlacionada la consulta con la subconsulta
+-- h. Está correctamente correlacionada la consulta con la subconsulta -- CORRECTO
+
+
+-- 2c) Sobre el esquema dado se requiere definir la siguiente vista, de manera que resulte automáticamente
+-- actualizable en PostgreSQL, siempre que sea posible, y que se verifique que no haya migración de tuplas de la
+-- vista. Resuelva según lo solicitado y justifique su solución.
+--
+-- - V2: Listar los satélites lanzados después del año 2024 que no poseen sensores.
+CREATE VIEW V2 AS
+    SELECT *
+FROM SATELITE
+WHERE extract(YEAR FROM fecha_lanzamiento) > 2024
+AND SATELITE.id_satelite NOT IN (
+    SELECT SENSOR.id_satelite
+    FROM SENSOR
+)WITH CHECK OPTION;
+
+
+CREATE VIEW V2 AS
+SELECT *
+FROM SATELITE
+WHERE extract(YEAR FROM fecha_lanzamiento) > 2024
+  AND NOT EXISTS (
+    SELECT 1
+    FROM SENSOR
+    WHERE SENSOR.id_satelite = SATELITE.id_satelite
+)WITH CHECK OPTION;
+
+-- EL WITH CHECK OPTION IMPIDE LA MIGRACION DE TUPLAS FUERA DE VISTA!
+
+-- OK SIEMPRE Q SEA INSERT V2.. no me dejara, pero si es insert satelite si
+
+------------------------------------------------------------------------------------------------------------------
+
+--3) Para el esquema dado, es necesario consultar
+-- los contactos de un satélite realizados después de una determinada fecha
+-- , mostrando: estación, fecha del contacto y duración; el satélite y la fecha son datos que se
+-- aportan. Resuelva con el recurso que considere más conveniente.
+
+-- Para estos casos lo mejor son Stored procedure / función
+
+CREATE OR REPLACE FUNCTION contactos_satelites_despues_de_x_fecha()
+RETURNS CONTACTO_ESTACION
+    AS $$
+    DECLARE fecha_contacto_aportada timestamp;
+        id_satelite_aportado integer;
+BEGIN
+    SELECT c.id_estacion, c.fecha_contacto, c.duracion_minutos
+    FROM CONTACTO_ESTACION c
+    WHERE extract(YEAR FROM c.fecha_contacto) > fecha_contacto_aportada
+        AND c.id_satelite = id_satelite_aportado;
+END;
+    $$
+LANGUAGE plpgsql;
+
+-- mal escrito pero maso bien
+
+CREATE OR REPLACE FUNCTION contactos_satelites_despues_de_x_fecha2(
+    fecha_contacto_aportada timestamp,
+    id_satelite_aportado integer
+)
+    RETURNS TABLE(
+                     estacion INT,
+                     fecha_contacto TIMESTAMP,
+                     duracion_minutos INT
+    )
+AS $$
+BEGIN
+    RETURN QUERY
+    SELECT c.id_estacion,
+        c.fecha_contacto,
+        c.duracion_minutos
+    FROM CONTACTO_ESTACION c
+    WHERE extract(YEAR FROM c.fecha_contacto) > fecha_contacto_aportada
+      AND c.id_satelite = id_satelite_aportado;
+END;
+$$
+LANGUAGE plpgsql
+-- CORREGIDO POR GPT Y SOFI
+
+--4) Listar todas las imágenes capturadas mostrando el id_imagen, fecha_captura, id_sensor y un número de fila
+-- ordenado por fecha de captura dentro de cada sensor además de la fecha de la primera imagen tomada por
+-- ese sensor
+
+--FUNCTION VENTANA
+SELECT id_imagen, fecha_captura, id_sensor,
+ROW_NUMBER() OVER (
+    PARTITION BY
+        id_sensor
+    ORDER BY fecha_captura
+    ) as fila,
+MIN(fecha_captura) OVER (
+    partition by id_sensor
+    ) as primera_imagen
+FROM IMAGENES_CAPTURADAS
+
+-- segun gpt: el segundo row_number esta mal, pq pide: mostrar la fecha de la primera imagen tomada por ese sensor
+-- y eso es una funcion tipio min()
+-- Calcula la fecha mínima dentro de cada sensor
+
+-- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
+
+
+    --5a) Es posible plantear con una sentencia declarativa un control que
+    -- no permita agregar imágenes a satélites
+    -- que están activos? Si su respuesta es positiva plantee el control; caso contrario justifique porque.
+
+
+    --rta
+    -- Si es posible mediante Triggers, estos sirven para que al realizar una operacion como actualizar, eliminar o agregar,
+    -- verifiquen ciertas reglas. En este caso se podria realizar que no permita agregar imagenes a satelites
+    -- que estan activos mediante condiciones y excepciones. Hay que controlar tanto en Satelite como en Sensor, como es +1
+    -- tabla se puede hacer con Assertion tambien. No es soportado en Postgres pero si en el estandar SQL
+
+    -- CORRECCION: UN TRIGGER NO ES DECLARATIVO, ES PROCEDURAL. ASI Q SOLO MENCIONAR ASSERTIONS
+
+    -- debemos controlar los siguientes atributos:
+    -- tabla: Satelite
+    -- id_satelite, estado ('A)
+
+    -- tabla: Sensor
+    -- id_imagen, id_sensor
+    CREATE ASSERTION ck_impedir_agregar_imagenes_con_satelites_activos
+           CHECK (
+            NOT EXISTS(
+            SELECT 1
+                FROM Sateltite s
+                JOIN Sensor
+                USING (id_satelite)
+                JOIN IMAGEN_CAPTURADA
+                USING (id_sensor)
+                WHERE s.ESTADO = 'A'
+           )
+    )
+
+--perfect!, lo unico a tener en cuenta es que los using solo sirven cuando los atributos tienen el mismo nombre en todas las tablas
