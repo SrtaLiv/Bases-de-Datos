@@ -58,6 +58,7 @@ EXECUTE PROCEDURE fn_actualizar_tarea();
 
 -- Ejercicio 2
 -- A partir del esquema unc_peliculas, realice procedimientos para:
+
 -- c) Completar una tabla denominada MAS_ENTREGADAS con los datos de las 20 películas
 -- más entregadas en los últimos seis meses desde la ejecución del procedimiento. Esta tabla
 -- por lo menos debe tener las columnas código_pelicula, nombre, cantidad_de_entregas (en
