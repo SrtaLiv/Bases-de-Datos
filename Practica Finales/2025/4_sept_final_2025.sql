@@ -461,3 +461,4 @@ $$
 CREATE TRIGGER tr_impedir_imagen_con_satelite_activo
     BEFORE INSERT OR UPDATE OF id_sensor ON IMAGENES_CAPTURADAS
     FOR EACH ROW EXECUTE FUNCTION fn_impedir_agregar_imagen_con_satelite_activo();
+
