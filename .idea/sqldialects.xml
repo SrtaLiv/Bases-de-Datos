@@ -1,8 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="SqlDialectMappings">
+    <file url="file://$PROJECT_DIR$/Ejercicios que me paso Dylan/final_14_12_2023.sql" dialect="PostgreSQL" />
     <file url="file://$PROJECT_DIR$/Practica Finales/2024/Final 05-12-2024.sql" dialect="PostgreSQL" />
     <file url="file://$PROJECT_DIR$/Practica Finales/2025/14_agos_final_2025.sql" dialect="PostgreSQL" />
     <file url="file://$PROJECT_DIR$/Practica Finales/2025/4_sept_final_2025.sql" dialect="PostgreSQL" />
+    <file url="file://$PROJECT_DIR$/Practica Finales/Parcial 2023/final-14-de-diciembre-2023-sistemas.sql" dialect="PostgreSQL" />
   </component>
 </project>
