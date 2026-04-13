@@ -376,3 +376,76 @@ WHERE NOT EXISTS
           ( SELECT 1 FROM especialidad e
             EXCEPT SELECT tipo_especialidad
             FROM trabaja_en t );
+
+-- Da error porque no existe la clausula EXCEPT
+-- CORRECCION
+--¿La institución tiene tantos tipos de especialidad distintos como tipos de especialidad existen en total?
+    -- pRIMERO SABER CUANTOS TIPOS DE ESPECIALIDAD EXISTEN EN TOTAL.
+SELECT COUNT(DISTINCT tipo_especialidad) FROM especialidad
+
+--Luego, por cada institución, contamos cuántos tipos distintos tiene en trabaja_en
+SELECT cod_institucion,
+       COUNT(DISTINCT tipo_especialidad) AS cantidad_tipos
+FROM trabaja_en
+GROUP BY cod_institucion
+
+-- Filtramos solo aquellas filas donde cantidad_tipos sea igual al total de tipos (3)
+SELECT cod_institucion
+FROM trabaja_en
+GROUP BY cod_institucion
+HAVING COUNT(DISTINCT tipo_especialidad) = (SELECT COUNT(DISTINCT tipo_especialidad) FROM especialidad)
+
+--rta
+SELECT *
+FROM institucion
+WHERE cod_institucion IN (SELECT cod_institucion
+                          FROM trabaja_en
+                          GROUP BY cod_institucion
+                          HAVING COUNT(DISTINCT tipo_especialidad) =
+                                 (SELECT COUNT(DISTINCT tipo_especialidad) FROM especialidad));
+
+
+--3.b) Obtener identificador y nombre de los profesionales que no registran trabajos de más de 30 horas
+-- semanales en instituciones localizadas en Tandil.
+SELECT p.id_profesional, p.nombre
+FROM profesional p
+JOIN trabaja_en t USING (id_profesional)
+JOIN institucion i USING (cod_institucion)
+WHERE t.horas_semanales < 30
+AND i.localidad NOT IN
+(SELECT cod_localidad
+FROM UBICACION
+WHERE nombre = ‘Tandil’);
+
+--yo: busquemos lo que no quieremos que exista.
+-- No queremos profesionales  con < 30 horas semanales en instituciones detnadil
+
+SELECT p.id_profesional, p.nombre
+FROM profesional p
+JOIN trabaja_en te on p.id_profesional = te.id_profesional
+JOIN institucion i on te.cod_institucion = i.cod_institucion
+JOIN ubicacion u ON i.localidad = u.cod_localidad
+WHERE u.nombre ILIKE 'Tandil'
+AND te.horas_semanales < 30
+
+--3.c) Listar los diferentes códigos y nombres de instituciones en las que trabajan actualmente más de 10
+-- profesionales de especialidades relacionadas con bioingeniería.
+
+-- correcta:
+SELECT i.cod_institucion, i.nombre
+FROM institucion i
+WHERE i.cod_institucion IN (
+    SELECT te.cod_institucion
+    FROM trabaja_en te
+             JOIN profesional p
+                  ON te.tipo_especialidad = p.tipo_especialidad
+                      AND te.cod_especialidad = p.cod_especialidad
+                      AND te.id_profesional = p.id_profesional
+             JOIN especialidad e
+                  ON p.tipo_especialidad = e.tipo_especialidad
+                      AND p.cod_especialidad = e.cod_especialidad
+    WHERE e.nombre ILIKE '%bioingenieria%'
+      AND (te.fecha_fin IS NULL OR te.fecha_fin > CURRENT_DATE)
+    GROUP BY te.cod_institucion
+    HAVING COUNT(DISTINCT te.id_profesional) > 10
+);

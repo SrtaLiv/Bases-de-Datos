@@ -345,11 +345,6 @@ update trabaja_en SET fecha_fin = '2026-04-08'::date WHERE tipo_especialidad = '
 SELECT * FROM trabaja_en JOIN especialidad USING(tipo_especialidad,cod_especialidad) WHERE n;
 
 
-
-
-
-
-
 SELECT i.cod_institucion, i.nombre
 FROM institucion i
 WHERE i.cod_institucion IN
