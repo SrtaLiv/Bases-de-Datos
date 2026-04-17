@@ -265,3 +265,143 @@ WHERE EXTRACT(YEAR FROM fecha_siembra) = EXTRACT(YEAR FROM CURRENT_DATE)
 -- e, correcta
 -- f, correcta
 -- g, correcta
+
+--2.b) Sobre el esquema dado se requiere definir la siguiente vista, de manera que resulte automáticamente
+-- actualizable en PostgreSQL, siempre que sea posible:
+
+-- - V2: que contenga para cada cosecha con al menos 3 ventas realizadas, el identificador de la cosecha, la
+-- cantidad total vendida y la fecha de la última venta registrada.
+
+CREATE VIEW V2 AS
+SELECT nro_cosecha, id_cultivo,
+       SUM(cantidad_vendida) AS total_vendido,
+       MAX(fecha_venta) AS ultima_venta
+FROM venta
+GROUP BY nro_cosecha,id_cultivo
+HAVING COUNT(*) >= 3;
+
+-- a. no es automáticamente actualizable al incluir agrupamiento en su definición CORRECTO
+-- b. ninguna de las opciones
+-- c. la cláusula HAVING incluida no permite asegurar que solo se incluyan cosechas con al menos tres ventas
+-- realizadas
+-- d. calcula incorrectamente la fecha de la última venta registrada y de la fecha de la última venta
+-- registrada porque no incluye una cláusula WHERE para filtrar valores nulos
+-- e. resulta automáticamente actualizable en PostgreSQL
+-- f. no resuelve lo requerido debido a que la cantidad total vendida y la fecha de la última venta registrada
+-- no se asocian adecuadamente a cada cosecha diferente
+-- g. calcula correctamente la cantidad total vendida y la fecha de la última venta registrada por cada
+-- cosecha diferente cCORRECTO
+-- h. mediante la cláusula HAVING se asegura que solo se incluyan cosechas con al menos tres ventas
+-- realizadas CORRECTO
+-- i. resulta automáticamente actualizable para el estándar SQL
+-- j. puede convertirse en actualizable si se elimina la cláusula HAVING
+
+--2.c) Sobre el esquema dado se requiere definir la siguiente vista, de manera que resulte automáticamente
+-- actualizable en PostgreSQL, siempre que sea posible, y que se verifique que no haya migración de tuplas de la
+-- vista:. Resuelva según lo solicitado y justifique su solución.
+
+-- - V3: que contenga los datos de los cultivos que han tenido el mayor promedio de cantidad vendida el año
+-- actual.
+
+CREATE VIEW V3 AS
+    SELECT *
+    FROM cultivo
+    WHERE ID_Cultivo IN (
+        SELECT ID_Cultivo
+        FROM Venta
+        WHERE extract(YEAR FROM Fecha_Venta) = extract(YEAR FROM CURRENT_DATE)
+        GROUP BY ID_Cultivo
+        HAVING avg(Cantidad_vendida)  = ( -- CALCULA EL PROMEDIO DE LOS CULTIVOS
+            SELECT MAX(promedio) -- OBTIENE EL MAYOR PROMEDIO
+            FROM (
+                     SELECT AVG(v2.Cantidad_vendida) AS promedio
+                     FROM Venta v2
+                     WHERE EXTRACT(YEAR FROM v2.Fecha_Venta) = EXTRACT(YEAR FROM CURRENT_DATE)
+                     GROUP BY v2.ID_Cultivo
+                 ) sub
+        )
+        )
+
+--     3) Para el esquema dado, se ha creado la tabla cultivos_agricultor donde se requiere registrar la siguiente
+-- información para todos los agricultores que están registrados en la base:
+--
+-- id_agricultor, nombre, fecha_registro, cantidad_cultivos, fecha_ultima_siembra
+--
+-- donde, para cada agricultor:
+-- - cantidad_cultivos corresponde a la cantidad de cultivos que registra
+-- - fecha_ultima_siembra es la fecha correspondiente a la última siembra que realizó
+
+-- Nota: en caso que un agricultor no registre cultivos, se deberá indicar apropiadamente.
+
+-- a) Implemente el método más adecuado en PostgreSQL que permita completar dicha tabla con la información
+-- de todos los agricultores a partir de los datos existentes en la base. Explique su solución e incluya la sentencia
+-- que debería utilizar un usuario para la ejecución del mismo.
+-- Nota: no puede utilizar sentencias de bucle (for, loop, etc.) para resolverlo.
+
+CREATE TABLE cultivos_agricultor as table agricultor;
+
+ALTER TABLE cultivos_agricultor
+    ADD COLUMN cantidad_cultivos decimal,
+    ADD COLUMN fecha_ultima_siembra DATE;
+
+INSERT INTO cultivos_agricultor (
+    id_agricultor,
+    nombre,
+    fecha_registro,
+    cantidad_cultivos,
+    fecha_ultima_siembra
+)
+SELECT
+    a.id_agricultor,
+    a.nombre,
+    a.fecha_registro,
+    COUNT(c.id_cultivo) AS cantidad_cultivos,
+    MAX(c.fecha_siembra) AS fecha_ultima_siembra
+FROM agricultor a
+         LEFT JOIN cultivo c
+                   ON a.id_agricultor = c.id_agricultor
+GROUP BY a.id_agricultor, a.nombre, a.fecha_registro;
+
+--3.b) Indique y justifique todos los eventos críticos necesarios para mantener los datos actualizados en la tabla
+-- cultivos_agricultor cuando se produzcan actualizaciones en la base. Incluya la declaración de los triggers
+-- correspondientes en PostgreSQL y escriba la implementación de la/s función/es requerida/s para operaciones
+-- de insert.
+
+--debo tener en cuenta cuando se agreguen en la tabla de Agricultos y la de Cultivo.
+-- Si insertan cultivos, cambia el count y quiza el MAX
+CREATE OR REPLACE FUNCTION tr_ej_3_b()
+RETURNS TRIGGER AS $$
+BEGIN
+    UPDATE cultivos_agricultor
+    SET cantidad_cultivos = (
+    SELECT count(*)
+    FROM cultivo c
+    where new.id_agricultor
+    = c.id_agricultor
+    ),
+        fecha_ultima_siembra = (
+            SELECT max(Fecha_siembra)
+            FROM cultivo c
+            where new.id_agricultor
+                      = c.id_agricultor
+            )
+    WHERE id_agricultor = NEW.id_agricultor;
+    RETURN NEW;
+end;
+$$
+language plpgsql;
+
+CREATE TRIGGER tr_ej_3b
+BEFORE INSERT ON cultivo
+FOR EACH ROW EXECUTE FUNCTION tr_ej_3_b()
+
+CREATE TRIGGER tr_ej_3b
+    BEFORE INSERT ON agricultor
+    FOR EACH ROW EXECUTE FUNCTION tr_ej_3_b()
+
+--4) Dada la siguiente vista creada en PostgreSQL
+
+create view V_Ventas_Cosecha as
+select v.*, c.Fecha_Cosecha, c.Cantidad_cosechada
+from Venta v join Cosecha using (ID_Cultivo, Nro_cosecha)
+where Cantidad_vendida > 10000 ;
