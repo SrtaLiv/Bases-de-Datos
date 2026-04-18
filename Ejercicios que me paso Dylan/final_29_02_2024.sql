@@ -157,9 +157,13 @@ INSERT INTO asignacion VALUES (1,'A',1,'2025-12-10'::date,'2025-12-25'::date,2),
 CREATE VIEW V1 AS
 SELECT u.nroUsuario, u.apell_nombre, u.ciudad, EXTRACT (YEAR FROM u.fecha_alta) as anio_alta
 FROM usuario u
-WHERE (u.ciudad ilike 'tandil' OR u.ciudad ilike 'mar del plata') AND NOT EXISTS (SELECT 1 FROM gestion g
-                                                                                           JOIN plan_promo p ON (g.idArea = p.idArea AND g.cod_plan = p.cod_plan)
-                                                                                           WHERE usuario = u.nroUsuario AND EXTRACT (YEAR FROM fecha) = EXTRACT (YEAR FROM CURRENT_DATE));
+WHERE (u.ciudad ilike 'tandil' OR u.ciudad ilike 'mar del plata')
+AND NOT EXISTS (SELECT 1 FROM gestion g
+                JOIN plan_promo p
+                ON (g.idArea = p.idArea AND g.cod_plan = p.cod_plan)
+                WHERE usuario = u.nroUsuario
+                AND EXTRACT (YEAR FROM fecha) = EXTRACT (YEAR FROM CURRENT_DATE));
+
 /*
 V2 con los datos completos de todos los planes ofrecidos,
 incluyendo también los atributos: caract_cond (con su
