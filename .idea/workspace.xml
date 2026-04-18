@@ -6,7 +6,8 @@
   <component name="ChangeListManager">
     <list default="true" id="09f9da0f-493c-45c1-aefc-aefae4bd52dd" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Practica Finales/Parcial 2023/3er_parcial_2023.sql" beforeDir="false" afterPath="$PROJECT_DIR$/Practica Finales/Parcial 2023/3er_parcial_2023.sql" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Ejercicios que me paso Dylan/final_29_02_2024.sql" beforeDir="false" afterPath="$PROJECT_DIR$/Ejercicios que me paso Dylan/final_29_02_2024.sql" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Practica Finales/2024/29 de febrero de 2024.sql" beforeDir="false" afterPath="$PROJECT_DIR$/Practica Finales/2024/29 de febrero de 2024.sql" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -32,7 +33,8 @@
     &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
     &quot;git-widget-placeholder&quot;: &quot;main&quot;,
     &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;/Users/oliviatodesco/Documents/UNIVERSIDAD/Bases-de-Datos&quot;
+    &quot;last_opened_file_path&quot;: &quot;/Users/oliviatodesco/Documents/UNIVERSIDAD/Bases-de-Datos&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.pluginManager&quot;
   },
   &quot;keyToStringList&quot;: {
     &quot;DatabaseDriversLRU&quot;: [
@@ -64,5 +66,16 @@
       <updated>1770830538947</updated>
     </task>
     <servers />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
   </component>
 </project>
