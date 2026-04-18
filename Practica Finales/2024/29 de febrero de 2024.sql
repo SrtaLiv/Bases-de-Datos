@@ -314,9 +314,8 @@ CREATE VIEW V3 AS select * from plan NATURAL JOIN gestion;
 -- combinando los datos del plan con los datos de la gestión, uniendo
 -- automáticamente por el área y código de plan."
 
-
-
 --corectas: I. y V eso pense xD
 --correctas reales: II y III porque la 2 incluye filas que aparece en gestion,
 --eso es correcto.
 -- 3 porque si se pude en algunos casos en SQL ESTANDAR!! pero en postgresql nO.
+
