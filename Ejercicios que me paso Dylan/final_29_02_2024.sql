@@ -175,7 +175,9 @@ CREATE VIEW V2 (cod_plan, idarea, nombre, anio_inicio,
 tipo_plan, caract_cond, descuento) AS ... ;
 */
 CREATE VIEW V2 AS
-SELECT p.cod_plan, p.idarea, p.nombre, p.anio_inicio, p.tipo_plan, COALESCE(pp.condicion, pt.caracteristica) as caract_cond, COALESCE(pp.descuento, 0) as descuento
+SELECT p.cod_plan, p.idarea, p.nombre, p.anio_inicio, p.tipo_plan,
+       COALESCE(pp.condicion, pt.caracteristica) as caract_cond,
+       COALESCE(pp.descuento, 0) as descuento
 FROM plan p
 LEFT JOIN plan_promo pp USING(idarea, cod_plan)
 LEFT JOIN plan_trad pt USING(idArea, cod_plan);

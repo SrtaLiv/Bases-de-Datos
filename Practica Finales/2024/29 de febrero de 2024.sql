@@ -203,6 +203,7 @@ OR ciudad ILIKE 'MAR DEL PLATA'
 -- CREAR UNA VISTA SELECCIONANDO ANIO_ALTA, QUE SE CALCULA A TRAVES DEL EXTRACT YEAR.
 -- EN LAS REGLAS DICE: NO TIENE COLUMNAS CALCULADAS COMPLEJAS.
 
+--tiempo: 40 minutos
 ------------------------------------------------------------------------------------------------------------------------------
 
 -- V2 con los datos completos de todos los planes ofrecidos,
@@ -212,4 +213,110 @@ OR ciudad ILIKE 'MAR DEL PLATA'
 -- es promocional, o 0 si es tradicional).
 
 CREATE VIEW V2 (cod_plan, idarea, nombre, anio_inicio,
-tipo_plan, caract_cond, descuento) AS ... ;
+tipo_plan, caract_cond, descuento) AS
+
+
+-- MI INTENTO
+    CREATE VIEW V2 (cod_plan, idarea, nombre, anio_inicio,
+tipo_plan, caract_cond, descuento) AS
+SELECT
+    cod_plan, idarea, nombre, anio_inicio,
+tipo_plan,
+caract_cond
+    , descuento
+FROM PLAN p
+WHERE EXISTS(
+    SELECT 1
+    FROM PLAN_PROMO pp
+    WHERE p.idArea = pp.idArea
+    AND p.cod_plan = pp.cod_plan
+    and caract_cond = condicion -- le asingo condicion  a plan promo
+)
+OR EXISTS(
+    SELECT 1
+    FROM PLAN_TRAD pt
+    WHERE p.idArea = pt.idArea
+    AND p.cod_plan = pt.cod_plan
+    AND pt.descuento = 0
+    AND caract_cond = caracteristica -- le asingo caracteristica  aplan trad
+)
+
+--ERRORES:
+-- filtrar en where el caract_cond que no es una columna de plan
+-- FALTA USAR EL COALASCE, esta es una funcion que te trae el primer valor
+-- no null que encuentra
+-- por ejemplo encontramos 2 planes,
+-- id 1 plan trad con caract = 1,
+-- id 2 plan promo con descuento = 100
+--resultado: id 1, plan_trad, caract =1, CONDICION = NULL
+--resultado: id 1, plan_promo, caract =0, condicion = 2
+-- EL COALASCE ME LO TRAERIA ASI:
+--resultado: id 1, plan_trad, caract_COND =1,
+--resultado: id 1, plan_promo, CARACT_cond = 2
+-- entonces donde tenemos caracteristica y condiciin, le ponemos
+-- caract_cond as COALASCE(caracteristica, condicion) :D
+
+--2do intento
+ CREATE VIEW V2 (cod_plan, idarea, nombre, anio_inicio,
+tipo_plan, caract_cond, descuento) AS
+SELECT
+    cod_plan, idarea, nombre, anio_inicio,
+tipo_plan,
+COALESCE(pp.condicion, pt.caracteristica) AS caract_cond,
+COALESCE(pp.descuento, 0) AS descuento
+FROM PLAN p
+LEFT JOIN plan_promo pp USING(idarea, cod_plan)
+LEFT JOIN plan_trad pt USING(idArea, cod_plan);
+
+-- por que usamos left join y no join comun?
+-- porque si hay algo nulo entre plan promo y plan trad
+-- me ignorara la fila,pq los join debe coindicir
+-- las filas para que me lo traiga
+
+-- MINUTOS: 25 APROX
+
+-- b)Respecto de las vistas V1 y V2 anteriores que no resulten
+-- actualizables por parte del SGBD, provea una implementación
+-- completa en PostgreSQL para posibilitar la propagación
+-- adecuada de inserciones. Explique su solución y ejemplifique a
+-- partir de una sentencia SQL concreta.
+
+CREATE OR REPLACE FUNCTION fn_actualizar_1b()
+RETURNS TRIGGER AS $$
+BEGIN
+    INSERT INTO plan VALUES(new.idarea, new.cod_plan, new.nombre, new.anio_inicio, new.tipo_plan);
+    IF (new.tipo_plan = 'P') THEN
+        INSERT INTO PLAN_PROMO VALUES(new.idarea, new.cod_plan, new.caract_cond, new.descuento);
+    end if;
+    IF (new.tipo_plan = 'T') THEN
+        INSERT INTO PLAN_TRAD VALUES(new.idarea, new.cod_plan, new.caract_cond);
+    end if;
+    return null;
+END;
+$$ LANGUAGE 'plpgsql';
+
+CREATE TRIGGER tg_actualizar_1b
+INSTEAD OF insert on V2
+FOR EACH ROW EXECUTE FUNCTION fn_actualizar_1b();
+
+insert into v2 VALUES (1,'D','Plan Jubilado',2026,'T','Ser mayor de 60 años',0);
+
+SELECT * FROM V2;
+
+--c) Dada la siguiente definición de vista sobre el esquema dado:
+CREATE VIEW V3 AS select * from plan NATURAL JOIN gestion;
+
+--crea una vista que selecciona todas las filas en comun de plan con gestion.
+--el natural join lo que hace es hacer join con las columnas con mismo nombre
+-- para las FK y PK de cada tabla
+
+--V3 muestra todos los planes que tienen al menos una gestión asociada,
+-- combinando los datos del plan con los datos de la gestión, uniendo
+-- automáticamente por el área y código de plan."
+
+
+
+--corectas: I. y V eso pense xD
+--correctas reales: II y III porque la 2 incluye filas que aparece en gestion,
+--eso es correcto.
+-- 3 porque si se pude en algunos casos en SQL ESTANDAR!! pero en postgresql nO.
