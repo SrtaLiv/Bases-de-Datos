@@ -4,7 +4,8 @@
 SELECT t.id_tarea, (t.sueldo_maximo - t.sueldo_minimo) as diferencia
 FROM unc_esq_peliculas.tarea t
 WHERE t.sueldo_minimo < 5500
-ORDER BY diferencia DESC
+ORDER BY diferenci
+    º
 LIMIT 3;
 
 --Utilizando el esquema unc_esq_peliculas escriba la consulta SQL que liste los identificadores de tareas y

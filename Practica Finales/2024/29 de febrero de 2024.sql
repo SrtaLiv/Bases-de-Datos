@@ -195,5 +195,21 @@ OR ciudad ILIKE 'MAR DEL PLATA'
         )
     )
 
+-- ULTIMO ERROR:
+-- NOT IN NO ES SEGURO CUANDO PUEDE HABER NULLS, EN CAMBIO EL NOT EXISTS MANEJA CORRECTAMENTE EL NUL.
+--EXISTS (o NOT EXISTS) no se aplica sobre una columna (nroUsuario)
+
+-- ES ACTUALIZABLE? NO, PORQUE PARA SER ACTUALIZABLE DEBERIA TENER LAS COLUMNAS DE LA TABLA BASE, Y EN ESTA PIDE
+-- CREAR UNA VISTA SELECCIONANDO ANIO_ALTA, QUE SE CALCULA A TRAVES DEL EXTRACT YEAR.
+-- EN LAS REGLAS DICE: NO TIENE COLUMNAS CALCULADAS COMPLEJAS.
+
+------------------------------------------------------------------------------------------------------------------------------
+
+-- V2 con los datos completos de todos los planes ofrecidos,
+-- incluyendo también los atributos: caract_cond (con su
+-- característica o condición, según sea plan tradicional o
+-- promocional) y descuento (con el valor de descuento ofrecido si
+-- es promocional, o 0 si es tradicional).
+
 CREATE VIEW V2 (cod_plan, idarea, nombre, anio_inicio,
 tipo_plan, caract_cond, descuento) AS ... ;
