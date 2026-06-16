@@ -41,14 +41,14 @@
         </introspection-scope>
       </schema-mapping>
     </data-source>
-    <data-source name="fqgkuxuy_laboriosos2@66.225.221.50" uuid="1bc6d2b6-f329-461a-bca5-be87d4db842c">
+    <data-source name="laboriosos@laboriosos-dev-mariadb" uuid="1bc6d2b6-f329-461a-bca5-be87d4db842c">
       <database-info product="MySQL" version="11.4.9-MariaDB-cll-lve" jdbc-version="4.2" driver-name="Amazon Web Services (AWS) Advanced JDBC Wrapper" driver-version="Amazon Web Services (AWS) Advanced JDBC Wrapper 2.3.7 ( Revision: 7591851e8da4e1c705ba232a8bd07824a5cfd276 )" dbms="MARIADB" exact-version="11.4.9" exact-driver-version="2.3">
         <extra-name-characters>#@</extra-name-characters>
         <identifier-quote-string>`</identifier-quote-string>
       </database-info>
       <case-sensitivity plain-identifiers="exact" quoted-identifiers="exact" />
       <secret-storage>master_key</secret-storage>
-      <user-name>fqgkuxuy_api</user-name>
+      <user-name>laboriosos_user</user-name>
       <schema-mapping />
     </data-source>
     <data-source name="andony@localhost" uuid="946352f5-b003-40f3-82a8-f616270bef12">
@@ -67,8 +67,8 @@
       </schema-mapping>
     </data-source>
     <data-source name="laboriosos@localhost [2]" uuid="aed283b1-97b5-4ddb-a250-5ee0d856aa75">
-      <database-info product="MySQL" version="11.4.10-MariaDB-ubu2404" jdbc-version="4.2" driver-name="Amazon Web Services (AWS) Advanced JDBC Wrapper" driver-version="Amazon Web Services (AWS) Advanced JDBC Wrapper 2.3.7 ( Revision: 7591851e8da4e1c705ba232a8bd07824a5cfd276 )" dbms="MARIADB" exact-version="11.4.10" exact-driver-version="2.3">
-        <extra-name-characters>#@</extra-name-characters>
+      <database-info product="MySQL" version="11.4.9-MariaDB-ubu2404" jdbc-version="4.2" driver-name="Amazon Web Services (AWS) Advanced JDBC Wrapper" driver-version="Amazon Web Services (AWS) Advanced JDBC Wrapper 3.3.0 ( Revision: 095ec1b6f33b49aaa04d8c06c9e1a95227d24445 )" dbms="MARIADB" exact-version="11.4.9" exact-driver-version="3.3">
+        <extra-name-characters>$</extra-name-characters>
         <identifier-quote-string>`</identifier-quote-string>
       </database-info>
       <case-sensitivity plain-identifiers="exact" quoted-identifiers="exact" />
@@ -79,6 +79,72 @@
           <node kind="schema" qname="@" />
         </introspection-scope>
       </schema-mapping>
+    </data-source>
+    <data-source name="@187.77.15.84" uuid="8ee424dd-6e90-4183-b8ba-f278a0fdf22f">
+      <database-info product="MySQL" version="11.4.10-MariaDB-ubu2404" jdbc-version="4.2" driver-name="Amazon Web Services (AWS) Advanced JDBC Wrapper" driver-version="Amazon Web Services (AWS) Advanced JDBC Wrapper 3.3.0 ( Revision: 095ec1b6f33b49aaa04d8c06c9e1a95227d24445 )" dbms="MARIADB" exact-version="11.4.10" exact-driver-version="3.3">
+        <extra-name-characters>$</extra-name-characters>
+        <identifier-quote-string>`</identifier-quote-string>
+      </database-info>
+      <case-sensitivity plain-identifiers="exact" quoted-identifiers="exact" />
+      <secret-storage>master_key</secret-storage>
+      <user-name>laboriosos_user</user-name>
+      <schema-mapping>
+        <introspection-scope>
+          <node kind="schema" negative="1" />
+        </introspection-scope>
+      </schema-mapping>
+    </data-source>
+    <data-source name="fqgkuxuy_laboriosos2@66.225.221.50 [2]" uuid="4a2becea-3270-474b-8c9a-1d800382b263">
+      <database-info product="MySQL" version="11.4.9-MariaDB-cll-lve" jdbc-version="4.2" driver-name="Amazon Web Services (AWS) Advanced JDBC Wrapper" driver-version="Amazon Web Services (AWS) Advanced JDBC Wrapper 2.3.7 ( Revision: 7591851e8da4e1c705ba232a8bd07824a5cfd276 )" dbms="MARIADB" exact-version="11.4.9" exact-driver-version="2.3">
+        <extra-name-characters>#@</extra-name-characters>
+        <identifier-quote-string>`</identifier-quote-string>
+      </database-info>
+      <case-sensitivity plain-identifiers="exact" quoted-identifiers="exact" />
+      <secret-storage>master_key</secret-storage>
+      <user-name>fqgkuxuy_api</user-name>
+      <schema-mapping />
+    </data-source>
+    <data-source name="andony@localhost [2]" uuid="45e4a80a-b425-4c90-a30d-016f8b02f493">
+      <database-info product="PostgreSQL" version="16.11" jdbc-version="4.2" driver-name="PostgreSQL JDBC Driver" driver-version="42.7.3" dbms="POSTGRES" exact-version="16.11" exact-driver-version="42.7">
+        <identifier-quote-string>&quot;</identifier-quote-string>
+      </database-info>
+      <case-sensitivity plain-identifiers="lower" quoted-identifiers="exact" />
+      <secret-storage>master_key</secret-storage>
+      <user-name>andony</user-name>
+      <schema-mapping>
+        <introspection-scope>
+          <node kind="database" qname="@">
+            <node kind="schema" qname="@" />
+          </node>
+        </introspection-scope>
+      </schema-mapping>
+    </data-source>
+    <data-source name="postgres@localhost" uuid="2684431d-df77-427a-9cf7-51928d8b578b">
+      <database-info product="PostgreSQL" version="16.11" jdbc-version="4.2" driver-name="PostgreSQL JDBC Driver" driver-version="42.7.3" dbms="POSTGRES" exact-version="16.11" exact-driver-version="42.7">
+        <identifier-quote-string>&quot;</identifier-quote-string>
+      </database-info>
+      <case-sensitivity plain-identifiers="lower" quoted-identifiers="exact" />
+      <secret-storage>master_key</secret-storage>
+      <user-name>root</user-name>
+      <schema-mapping>
+        <introspection-scope>
+          <node negative="1">
+            <node kind="database" negative="1" />
+            <node kind="database" qname="@">
+              <node kind="schema" qname="@" />
+            </node>
+            <node kind="database" qname="root">
+              <node kind="schema" negative="1" />
+            </node>
+          </node>
+        </introspection-scope>
+      </schema-mapping>
+    </data-source>
+    <data-source name="tourly@localhost" uuid="919a0855-ad26-48aa-a93a-3e3703062eb3">
+      <database-info product="" version="" jdbc-version="" driver-name="" driver-version="" dbms="POSTGRES" />
+      <secret-storage>master_key</secret-storage>
+      <user-name>root</user-name>
+      <schema-mapping />
     </data-source>
   </component>
 </project>

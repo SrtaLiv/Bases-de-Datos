@@ -36,8 +36,6 @@ FROM empleado
 ORDER BY EXTRACT(MONTH FROM empleado.fecha_nacimiento), EXTRACT(DAY FROM empleado.fecha_nacimiento);
 
 
-
-
 --12. Listar la cantidad de películas que hay por cada idioma. (P)
     SELECT idioma, count(idioma) AS cantidad_peliculas FROM pelicula GROUP BY idioma;
 

@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="SqlDialectMappings">
+    <file url="file://$PROJECT_DIR$/EjerciciosClase/TP_O4.sql" dialect="PostgreSQL" />
+    <file url="file://$PROJECT_DIR$/EjerciciosDataGrip/2025/TP4/TP4_EJ1.sql" dialect="PostgreSQL" />
+    <file url="file://$PROJECT_DIR$/EjerciciosDataGrip/2025/TP4/script.sql" dialect="PostgreSQL" />
     <file url="file://$PROJECT_DIR$/Practica Finales/2022/17_2_2022.sql" dialect="PostgreSQL" />
     <file url="file://$PROJECT_DIR$/Practica Finales/2023/29_mayo_2023.sql" dialect="PostgreSQL" />
     <file url="file://$PROJECT_DIR$/Practica Finales/2024/29 de febrero de 2024.sql" dialect="GenericSQL" />

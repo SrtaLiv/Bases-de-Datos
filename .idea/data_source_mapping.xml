@@ -1,6 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="DataSourcePerFileMappings">
+    <file url="file://$APPLICATION_CONFIG_DIR$/consoles/db/45e4a80a-b425-4c90-a30d-016f8b02f493/console_1.sql" value="45e4a80a-b425-4c90-a30d-016f8b02f493" />
+    <file url="file://$APPLICATION_CONFIG_DIR$/consoles/db/8ee424dd-6e90-4183-b8ba-f278a0fdf22f/console.sql" value="8ee424dd-6e90-4183-b8ba-f278a0fdf22f" />
+    <file url="file://$APPLICATION_CONFIG_DIR$/consoles/db/8ee424dd-6e90-4183-b8ba-f278a0fdf22f/console_1.sql" value="8ee424dd-6e90-4183-b8ba-f278a0fdf22f" />
+    <file url="file://$APPLICATION_CONFIG_DIR$/consoles/db/aed283b1-97b5-4ddb-a250-5ee0d856aa75/console.sql" value="aed283b1-97b5-4ddb-a250-5ee0d856aa75" />
+    <file url="file://$PROJECT_DIR$/EjerciciosClase/TP_O4.sql" value="8e4cd8a1-40af-44d8-9e66-f6f0908be470" />
+    <file url="file://$PROJECT_DIR$/EjerciciosDataGrip/2025/TP4/TP4_EJ1.sql" value="8e4cd8a1-40af-44d8-9e66-f6f0908be470" />
+    <file url="file://$PROJECT_DIR$/EjerciciosDataGrip/2025/TP4/script.sql" value="8e4cd8a1-40af-44d8-9e66-f6f0908be470" />
     <file url="file://$PROJECT_DIR$/Practica Finales/2025/14_08_2025_segundo_intento.sql" value="8e4cd8a1-40af-44d8-9e66-f6f0908be470" />
   </component>
 </project>

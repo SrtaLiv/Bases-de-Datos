@@ -5,9 +5,15 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="09f9da0f-493c-45c1-aefc-aefae4bd52dd" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/data_source_mapping.xml" beforeDir="false" />
+      <change afterPath="$PROJECT_DIR$/EjerciciosClase/TP_O4.sql" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/EjerciciosDataGrip/2025/TP4/script.sql" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/EjerciciosDataGrip/2025/TP4/tp4_2_2026.sql" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources.local.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources.local.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/data_source_mapping.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/data_source_mapping.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/sqldialects.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/sqldialects.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Practica Finales/2022/17_2_2022.sql" beforeDir="false" afterPath="$PROJECT_DIR$/Practica Finales/2022/17_2_2022.sql" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/EjerciciosDataGrip/2024/Practico4/peliculasEjercicios.sql" beforeDir="false" afterPath="$PROJECT_DIR$/EjerciciosDataGrip/2024/Practico4/peliculasEjercicios.sql" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -31,6 +37,7 @@
     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
+    &quot;database.data.extractors.current.export.id&quot;: &quot;Comma-separated (CSV)_id&quot;,
     &quot;git-widget-placeholder&quot;: &quot;main&quot;,
     &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
     &quot;last_opened_file_path&quot;: &quot;/Users/oliviatodesco/Documents/UNIVERSIDAD/Bases-de-Datos&quot;,
@@ -38,8 +45,9 @@
   },
   &quot;keyToStringList&quot;: {
     &quot;DatabaseDriversLRU&quot;: [
-      &quot;mysql_aurora&quot;,
-      &quot;postgresql&quot;
+      &quot;postgresql&quot;,
+      &quot;mysql&quot;,
+      &quot;mysql_aurora&quot;
     ]
   }
 }</component>
