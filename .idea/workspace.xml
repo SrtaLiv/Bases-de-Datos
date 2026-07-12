@@ -5,15 +5,18 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="09f9da0f-493c-45c1-aefc-aefae4bd52dd" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/EjerciciosClase/TP_O4.sql" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/EjerciciosDataGrip/2025/TP4/script.sql" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/EjerciciosDataGrip/2025/TP4/tp4_2_2026.sql" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/EjerciciosDataGrip/2025/TP5/TP_5_2026_REPASO.sql" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Practica Finales/2022/28_abril_2022_sistemas.sql" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Practica Finales/2024/02-24.sql" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Practica Finales/2024/mi_parcial_2024.sql" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Practica Finales/2026/26_02_206.sql" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Practica Finales/2026/final_23_de_abril.sql" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/dataSources.local.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources.local.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/dataSources.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/data_source_mapping.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/data_source_mapping.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/sqldialects.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/sqldialects.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/EjerciciosDataGrip/2024/Practico4/peliculasEjercicios.sql" beforeDir="false" afterPath="$PROJECT_DIR$/EjerciciosDataGrip/2024/Practico4/peliculasEjercicios.sql" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/EjerciciosDataGrip/2025/TP4/tp4_2_2026.sql" beforeDir="false" afterPath="$PROJECT_DIR$/EjerciciosDataGrip/2025/TP4/tp4_2_2026.sql" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -51,15 +54,21 @@
     ]
   }
 }</component>
-  <component name="RunManager">
+  <component name="RunManager" selected="Database Script.mi_parcial_2024.sql">
     <configuration name="TP04.2.sql" type="DatabaseScript" editBeforeRun="true" temporary="true" nameIsGenerated="true">
       <script-file value="$PROJECT_DIR$/EjerciciosDataGrip/2025/TP 4/TP04.2.sql" />
       <script-mode>FILE</script-mode>
       <data-source id="c58c121a-8396-44c1-8531-b33dc614e370" namespace="database/&quot;Tudai25&quot;/schema/&quot;unc_esq_peliculas&quot;" />
       <method v="2" />
     </configuration>
+    <configuration name="mi_parcial_2024.sql" type="DatabaseScript" editBeforeRun="true" temporary="true" nameIsGenerated="true">
+      <script-file value="$PROJECT_DIR$/Practica Finales/2024/mi_parcial_2024.sql" />
+      <script-mode>FILE</script-mode>
+      <method v="2" />
+    </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="Database Script.mi_parcial_2024.sql" />
         <item itemvalue="Database Script.TP04.2.sql" />
       </list>
     </recent_temporary>

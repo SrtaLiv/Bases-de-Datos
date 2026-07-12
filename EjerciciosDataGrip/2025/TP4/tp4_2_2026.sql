@@ -141,3 +141,21 @@ FROM institucion i
 JOIN voluntario v
 USING (id_institucion)
 
+--     Ejercicio 3
+-- Dada la siguiente tabla y basándose en el esquema de películas,
+CREATE TABLE distribuidor_nac
+(
+    id_distribuidor numeric(5,0) NOT NULL,
+    nombre character varying(80) NOT NULL,
+    direccion character varying(120) NOT NULL,
+    telefono character varying(20),
+    nro_inscripcion numeric(8,0) NOT NULL,
+    encargado character varying(60) NOT NULL,
+    id_distrib_mayorista numeric(5,0),
+    CONSTRAINT pk_distribuidorNac PRIMARY KEY (id_distribuidor)
+);
+
+--3.1 Se solicita llenarla con la información correspondiente a los datos completos de
+-- todos los distribuidores nacionales.
+
+ALTER TABLE distribuidor_nac
