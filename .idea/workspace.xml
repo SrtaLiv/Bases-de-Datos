@@ -5,18 +5,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="09f9da0f-493c-45c1-aefc-aefae4bd52dd" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/EjerciciosDataGrip/2025/TP5/TP_5_2026_REPASO.sql" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Practica Finales/2022/28_abril_2022_sistemas.sql" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Practica Finales/2024/02-24.sql" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Practica Finales/2024/mi_parcial_2024.sql" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Practica Finales/2026/26_02_206.sql" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Practica Finales/2026/final_23_de_abril.sql" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources.local.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources.local.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/data_source_mapping.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/data_source_mapping.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/sqldialects.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/sqldialects.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/EjerciciosDataGrip/2025/TP8/tp_8_seguridad_repaso.sql" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/EjerciciosDataGrip/2025/TP4/tp4_2_2026.sql" beforeDir="false" afterPath="$PROJECT_DIR$/EjerciciosDataGrip/2025/TP4/tp4_2_2026.sql" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Practica Finales/2022/28_abril_2022_sistemas.sql" beforeDir="false" afterPath="$PROJECT_DIR$/Practica Finales/2022/28_abril_2022_sistemas.sql" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />

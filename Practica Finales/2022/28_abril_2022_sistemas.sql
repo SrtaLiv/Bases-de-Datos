@@ -158,3 +158,22 @@ end;
 CREATE TRIGGER tr_ej1a
 BEFORE INSERT OR UPDATE OF superficie, capacidad ON OFICINA
 FOR EACH ROW EXECUTE FUNCTION fn_ej1a();
+
+---------------------
+--ej2Ejercicio 2)
+-- 2.1) Considere que se desea proveer a los usuarios acceso a información de la BD a
+-- través de las siguientes vistas.
+-- Importante: tenga en cuenta de construirlas de manera optimizada (considerando
+-- sólo las tablas y atributos y, siempre que sea psible, que resulten
+-- automáticamente actualizables en PostgreSQL; de lo contrario justifique la/s causa/s
+
+-- a) VI: datos completos de los alquileres iniciados en los últimos 3 meses y aún
+-- vigentes, que abarcan más de 10 oficinas y totalizan más de 1000 m2
+
+--fecha_inicio del alquiler
+-- 20-02-2026 y hoy es 20-05-2026
+
+
+SELECT (age(fecha_inicio) - age(current_date)) FROM alquiler;
+
+CREATE VIEW vista_a AS select * from alquiler where fecha_inicio >= CURRENT_DATE - INTERVAL '3 months'3
